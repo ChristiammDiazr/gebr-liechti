@@ -1,7 +1,8 @@
 import { notFound } from 'next/navigation';
 import { getRequestConfig } from 'next-intl/server';
 
-const locales = ['de', 'en-GB', 'es', 'it', 'fr', 'pt', 'sq', 'pl'];
+// Lista de los 6 idiomas exactos que configuramos en los JSON
+const locales = ['de', 'en', 'es', 'it', 'fr', 'pt'];
 
 export default getRequestConfig(async ({ requestLocale }) => {
   // En las versiones recientes, usamos requestLocale

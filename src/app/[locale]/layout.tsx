@@ -34,11 +34,11 @@ export default async function RootLayout({
           {/* HEADER GLOBAL */}
           <header className="absolute top-0 left-0 w-full z-50 py-5 px-6 md:px-12 flex justify-between items-center text-white bg-gradient-to-b from-[#000a1f]/90 via-[#000a1f]/40 to-transparent">
             
-            {/* LOGOTIPO CON AURA DINÁMICA (FORZADO CON CSS PURO PARA EVITAR FALLOS DE TAILWIND) */}
+            {/* LOGOTIPO CON AURA DINÁMICA */}
             <Link href={`/${locale}`} className="group cursor-pointer shrink-0 z-50">
               <div className="relative flex items-center justify-center">
                 
-                {/* 1. EL AURA (Glow Exterior) - CSS puro */}
+                {/* 1. EL AURA (Glow Exterior) */}
                 <div 
                   className="absolute -inset-2 blur-xl rounded-full transition-all duration-500 group-hover:blur-2xl group-hover:scale-110"
                   style={{
@@ -48,7 +48,7 @@ export default async function RootLayout({
                   }}
                 ></div>
                 
-                {/* 2. LA PLACA (Efecto Cristal) - CSS puro */}
+                {/* 2. LA PLACA (Efecto Cristal) */}
                 <div 
                   className="relative flex items-center px-4 py-2 rounded-xl transition-all duration-500 transform group-hover:scale-105 group-hover:-rotate-1 group-hover:-translate-y-1 shadow-[0_8px_20px_rgba(0,0,0,0.3)]"
                   style={{
@@ -71,10 +71,12 @@ export default async function RootLayout({
             
             {/* NAVEGACIÓN PRINCIPAL */}
             <nav className="hidden lg:flex gap-8 font-medium text-base xl:text-lg items-center">
+              {/* QUIÉNES SOMOS EN PRIMERA POSICIÓN */}
+              <Link href={`/${locale}/ueber-uns`} className="hover:text-liechti-gold transition-colors duration-300 drop-shadow-md">{t('navAbout')}</Link>
               <Link href={`/${locale}/heizung`} className="hover:text-liechti-gold transition-colors duration-300 drop-shadow-md">{t('navHeizung')}</Link>
               <Link href={`/${locale}/sanitaer`} className="hover:text-liechti-gold transition-colors duration-300 drop-shadow-md">{t('navSanitaer')}</Link>
               <Link href={`/${locale}/klima`} className="hover:text-liechti-gold transition-colors duration-300 drop-shadow-md">{t('navKlima')} & {t('navLueftung')}</Link>
-              <Link href={`/${locale}/karriere`} className="text-liechti-gold font-semibold hover:underline transition-all">Karriere</Link>
+              <Link href={`/${locale}/karriere`} className="text-liechti-gold font-semibold hover:underline transition-all">{t('navCareer')}</Link>
               <Link href={`/${locale}/kontakt`} className="hover:text-liechti-gold transition-colors duration-300 drop-shadow-md">{t('btnContact')}</Link>
             </nav>
             

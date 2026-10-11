@@ -2,214 +2,266 @@
 
 import { useState } from 'react';
 import { useParams } from 'next/navigation';
+import { useTranslations } from 'next-intl';
+import { motion } from 'framer-motion';
+import { Briefcase, MapPin, Clock, CheckCircle, X } from 'lucide-react';
 
 export default function KarrierePage() {
   const params = useParams();
-  const locale = params.locale || 'de';
+  // locale is retrieved from params to ensure type safety if needed
+  const locale = (params.locale as string) || 'de';
+  
+  // Conectamos la página al diccionario JSON bajo la clave "Karriere"
+  const t = useTranslations('Karriere');
 
   const [selectedJob, setSelectedJob] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [successMessage, setSuccessMessage] = useState(false);
 
+  // Lista de trabajos conectada al diccionario JSON
   const jobOpenings = [
     {
       id: 'heizungsinstallateur',
-      title: 'Heizungsinstallateur EFZ (m/w/d)',
-      department: 'Heizung & Wärmepumpen',
-      location: 'Hunzenschwil (Aargau) & Umgebung',
-      type: '100% / Festanstellung',
-      description: 'Installation, Wartung und Sanierung modernster Heizsysteme, Wärmepumpen und umweltfreundlicher Energietechnologien nach Schweizer Standard.',
+      title: t('jobs.job1Title'),
+      department: t('jobs.job1Dept'),
+      location: t('jobs.job1Loc'),
+      type: t('jobs.job1Type'),
+      description: t('jobs.job1Desc'),
     },
     {
       id: 'sanitaerinstallateur',
-      title: 'Sanitärinstallateur EFZ (m/w/d)',
-      department: 'Sanitär & Badtechnik',
-      location: 'Hunzenschwil (Aargau)',
-      type: '100% / Festanstellung',
-      description: 'Fachgerechte Ausführung von Sanitärinstallationen, Neubauten und hochwertigen Badumbauten unter Einhaltung der Minergie-Richtlinien.',
+      title: t('jobs.job2Title'),
+      department: t('jobs.job2Dept'),
+      location: t('jobs.job2Loc'),
+      type: t('jobs.job2Type'),
+      description: t('jobs.job2Desc'),
     },
     {
       id: 'projektleiter-haustechnik',
-      title: 'Projektleiter Haustechnik / Sanitär (m/w/d)',
-      department: 'Management & Planung',
-      location: 'Zentrale Hunzenschwil',
-      type: '80% - 100%',
-      description: 'Technische Projektleitung von der Offertstellung bis zur Übergabe. Enge Koordination mit Architekten, Kunden und unseren Technikern vor Ort.',
+      title: t('jobs.job3Title'),
+      department: t('jobs.job3Dept'),
+      location: t('jobs.job3Loc'),
+      type: t('jobs.job3Type'),
+      description: t('jobs.job3Desc'),
     },
   ];
 
   const handleSubmitApplication = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsSubmitting(true);
-
+    // Simulación de envío
     setTimeout(() => {
       setIsSubmitting(false);
       setSuccessMessage(true);
     }, 1500);
   };
 
+  // Animaciones de Framer Motion
+  const fadeUp = {
+    hidden: { opacity: 0, y: 30 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } }
+  };
+
+  const staggerContainer = {
+    hidden: { opacity: 0 },
+    visible: { opacity: 1, transition: { staggerChildren: 0.2 } }
+  };
+
   return (
-    <main className="min-h-screen bg-slate-50 text-slate-900 pt-28 pb-20">
+    <main className="min-h-screen bg-slate-50 text-slate-900 pb-24">
       
-      {/* HERO SECTION DE CARRERA */}
-      <section className="bg-[#030914] text-white py-20 px-6 relative overflow-hidden mb-16">
-        <div className="absolute inset-0 bg-gradient-to-r from-blue-900/20 to-transparent z-0"></div>
-        <div className="max-w-5xl mx-auto text-center relative z-10 space-y-6">
-          <span className="bg-[#d4af37]/10 border border-[#d4af37]/40 text-[#d4af37] px-4 py-1.5 rounded-full text-xs font-bold tracking-widest uppercase">
-            Karriere bei Gebr. Liechti AG
-          </span>
-          <h1 className="text-4xl md:text-6xl font-extrabold font-mono tracking-tight">
-            Gestalten Sie die Zukunft der <span className="text-[#d4af37]">Haustechnik</span>
-          </h1>
-          <p className="text-slate-300 text-lg max-w-2xl mx-auto font-light">
-            Werden Sie Teil eines traditionsreichen Schweizer Familienunternehmens mit 51 Jahren Erfahrung, flachen Hierarchien und modernsten Technologien.
-          </p>
+      {/* 1. HERO SECTION DINÁMICO */}
+      <section className="relative w-full h-[60vh] min-h-[500px] flex items-center justify-center overflow-hidden mb-20 pt-20">
+        <div className="absolute inset-0 z-0">
+          <motion.img 
+            initial={{ scale: 1.1 }}
+            animate={{ scale: 1 }}
+            transition={{ duration: 2, ease: "easeOut" }}
+            // Fotografía conceptual de equipo de ingeniería / trabajo
+            src="/hero/karriere-bg.jpg" 
+            alt="Careers at Gebr. Liechti" 
+            className="w-full h-full object-cover"
+          />
+          <div className="absolute inset-0 bg-[#001133]/80 mix-blend-multiply"></div>
+          <div className="absolute inset-0 bg-gradient-to-t from-slate-50 to-transparent"></div>
         </div>
+
+        <motion.div 
+          initial="hidden"
+          animate="visible"
+          variants={fadeUp}
+          className="relative z-10 text-center px-6 max-w-4xl mx-auto mt-16"
+        >
+          <span className="inline-block bg-[#d4af37]/20 border border-[#d4af37]/40 text-[#d4af37] px-6 py-2 rounded-full text-xs font-bold tracking-widest uppercase mb-6 backdrop-blur-sm">
+            {t('badge')}
+          </span>
+          <h1 className="text-5xl md:text-6xl font-extrabold text-white mb-6 drop-shadow-lg tracking-tight leading-tight">
+            {t('title')}
+          </h1>
+          <p className="text-slate-300 text-lg md:text-xl max-w-2xl mx-auto font-light leading-relaxed">
+            {t('subtitle')}
+          </p>
+        </motion.div>
       </section>
 
-      {/* LISTADO DE OFERTAS */}
-      <div className="max-w-6xl mx-auto px-6">
-        <div className="flex justify-between items-center mb-10 border-b border-slate-200 pb-4">
-          <h2 className="text-2xl md:text-3xl font-bold font-mono text-[#030914]">
-            Offene Stellen ({jobOpenings.length})
+      {/* 2. LISTADO DE OFERTAS LABORALES */}
+      <div className="max-w-6xl mx-auto px-6 relative z-10">
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-12 border-b border-slate-200 pb-6 gap-4">
+          <h2 className="text-3xl md:text-4xl font-extrabold text-[#001133] flex items-center gap-3">
+            <Briefcase className="w-8 h-8 text-[#d4af37]" />
+            {t('openPositions')} ({jobOpenings.length})
           </h2>
-          <span className="text-sm text-slate-500">Standort: Aargau, Schweiz</span>
+          <span className="text-sm font-semibold text-slate-500 bg-white px-4 py-2 rounded-lg shadow-sm border border-slate-100 flex items-center gap-2">
+            <MapPin className="w-4 h-4 text-[#0060a9]" />
+            {t('locationLabel')}
+          </span>
         </div>
 
-        <div className="grid grid-cols-1 gap-6">
+        <motion.div 
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-50px" }}
+          variants={staggerContainer}
+          className="grid grid-cols-1 gap-8"
+        >
           {jobOpenings.map((job) => (
-            <div 
+            <motion.div 
+              variants={fadeUp}
               key={job.id} 
-              className="bg-white rounded-2xl p-8 border border-slate-200 shadow-sm hover:shadow-md transition-all flex flex-col md:flex-row justify-between items-start md:items-center gap-6"
+              className="bg-white rounded-3xl p-8 md:p-10 shadow-[0_10px_30px_rgba(0,17,51,0.04)] border border-slate-100 hover:shadow-[0_20px_50px_rgba(0,17,51,0.08)] hover:-translate-y-1 transition-all duration-300 flex flex-col md:flex-row justify-between items-start md:items-center gap-8 group"
             >
-              <div className="space-y-3 max-w-2xl">
-                <div className="flex flex-wrap gap-2">
-                  <span className="bg-blue-50 text-blue-700 text-xs font-semibold px-3 py-1 rounded-full border border-blue-100">
+              <div className="space-y-4 max-w-3xl">
+                <div className="flex flex-wrap gap-3">
+                  <span className="bg-[#0060a9]/10 text-[#0060a9] text-xs font-bold px-4 py-1.5 rounded-full uppercase tracking-wider">
                     {job.department}
                   </span>
-                  <span className="bg-amber-50 text-amber-800 text-xs font-semibold px-3 py-1 rounded-full border border-amber-100">
+                  <span className="bg-[#d4af37]/10 text-[#9a7e24] text-xs font-bold px-4 py-1.5 rounded-full uppercase tracking-wider">
                     {job.type}
                   </span>
                 </div>
-                <h3 className="text-2xl font-bold text-[#030914] hover:text-[#d4af37] transition-colors">
+                <h3 className="text-2xl md:text-3xl font-extrabold text-[#001133] group-hover:text-[#0060a9] transition-colors">
                   {job.title}
                 </h3>
-                <p className="text-slate-600 text-sm leading-relaxed">
+                <p className="text-slate-600 text-base md:text-lg leading-relaxed">
                   {job.description}
                 </p>
-                <div className="flex items-center text-xs text-slate-500 gap-4 pt-1">
-                  <span>📍 {job.location}</span>
-                  <span>⚡ Sofort oder nach Vereinbarung</span>
+                <div className="flex flex-wrap items-center text-sm font-medium text-slate-500 gap-6 pt-2">
+                  <span className="flex items-center gap-2"><MapPin className="w-4 h-4 text-slate-400" /> {job.location}</span>
+                  <span className="flex items-center gap-2"><Clock className="w-4 h-4 text-slate-400" /> {t('availabilityPlaceholder')}</span>
                 </div>
               </div>
 
               <button
                 onClick={() => setSelectedJob(job.title)}
-                className="w-full md:w-auto bg-[#030914] text-white hover:bg-[#d4af37] hover:text-slate-950 font-bold px-8 py-3.5 rounded-xl transition-all text-sm shadow-md whitespace-nowrap"
+                className="w-full md:w-auto bg-[#001133] text-white hover:bg-[#d4af37] hover:text-[#001133] font-bold px-8 py-4 rounded-xl transition-all shadow-lg hover:shadow-xl whitespace-nowrap uppercase tracking-wider text-sm flex items-center justify-center gap-2 shrink-0 border border-transparent hover:border-[#d4af37]"
               >
-                Jetzt Bewerben →
+                {t('applyBtn')}
               </button>
-            </div>
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
       </div>
 
-      {/* MODAL DE POSTULACIÓN */}
+      {/* 3. MODAL DE POSTULACIÓN (POPUP) */}
       {selectedJob && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm p-4 overflow-y-auto">
-          <div className="bg-white rounded-3xl max-w-2xl w-full p-8 shadow-2xl border border-slate-100 relative my-8">
+        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-[#001133]/80 backdrop-blur-md p-4 overflow-y-auto">
+          <motion.div 
+            initial={{ opacity: 0, scale: 0.9, y: 20 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            className="bg-white rounded-3xl max-w-2xl w-full p-8 md:p-10 shadow-2xl relative my-8"
+          >
             
             <button 
               onClick={() => { setSelectedJob(null); setSuccessMessage(false); }}
-              className="absolute top-6 right-6 text-slate-400 hover:text-slate-700 text-xl font-bold w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center transition-colors"
+              className="absolute top-6 right-6 text-slate-400 hover:text-slate-800 bg-slate-100 hover:bg-slate-200 p-2 rounded-full transition-colors"
             >
-              ✕
+              <X className="w-6 h-6" />
             </button>
 
             {successMessage ? (
-              <div className="text-center py-12 space-y-4">
-                <div className="w-16 h-16 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto text-3xl font-bold">
-                  ✓
+              <div className="text-center py-12 space-y-6">
+                <div className="w-24 h-24 bg-green-50 text-green-500 rounded-full flex items-center justify-center mx-auto shadow-inner">
+                  <CheckCircle className="w-12 h-12" />
                 </div>
-                <h3 className="text-2xl font-bold text-slate-900">Bewerbung erfolgreich eingereicht!</h3>
-                <p className="text-slate-600 text-sm max-w-md mx-auto">
-                  Vielen Dank für Ihre Bewerbung als <strong className="text-slate-900">{selectedJob}</strong>. Unsere Personalabteilung wird Ihre Unterlagen prüfen.
+                <h3 className="text-3xl font-extrabold text-[#001133]">{t('successTitle')}</h3>
+                <p className="text-slate-600 text-lg max-w-md mx-auto leading-relaxed">
+                  {t('successDesc')} <br/><strong className="text-[#001133] mt-2 block">{selectedJob}</strong>
                 </p>
                 <button
                   onClick={() => { setSelectedJob(null); setSuccessMessage(false); }}
-                  className="mt-6 bg-[#030914] text-white font-bold px-8 py-3 rounded-xl hover:bg-slate-800 transition-all text-sm"
+                  className="mt-8 bg-[#001133] text-white font-bold px-10 py-4 rounded-xl hover:bg-[#d4af37] hover:text-[#001133] transition-all uppercase tracking-wider text-sm shadow-lg"
                 >
-                  Schliessen
+                  {t('closeBtn')}
                 </button>
               </div>
             ) : (
-              <form onSubmit={handleSubmitApplication} className="space-y-5">
-                <div>
-                  <span className="text-xs font-bold text-[#d4af37] tracking-wider uppercase">Bewerbungsformular</span>
-                  <h3 className="text-2xl font-bold text-[#030914]">{selectedJob}</h3>
-                  <p className="text-xs text-slate-500 mt-1">Bitte laden Sie Ihre Schweizer Standard-Dokumente hoch.</p>
+              <form onSubmit={handleSubmitApplication} className="space-y-6">
+                <div className="mb-8 border-b border-slate-100 pb-6">
+                  <span className="text-xs font-bold text-[#d4af37] tracking-widest uppercase mb-2 block">{t('formTitle')}</span>
+                  <h3 className="text-2xl md:text-3xl font-extrabold text-[#001133] mb-2">{selectedJob}</h3>
+                  <p className="text-sm text-slate-500">{t('formSub')}</p>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
-                    <label className="block text-xs font-semibold text-slate-700 uppercase mb-1">Vollständiger Name *</label>
-                    <input required type="text" placeholder="Max Mustermann" className="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-[#d4af37]" />
+                    <label className="block text-xs font-bold text-[#001133] uppercase tracking-wider mb-2">{t('nameLabel')}</label>
+                    <input required type="text" placeholder={t('namePlaceholder')} className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3.5 text-sm focus:outline-none focus:border-[#0060a9] focus:bg-white focus:ring-1 focus:ring-[#0060a9] transition-all" />
                   </div>
                   <div>
-                    <label className="block text-xs font-semibold text-slate-700 uppercase mb-1">E-Mail-Adresse *</label>
-                    <input required type="email" placeholder="max@beispiel.ch" className="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-[#d4af37]" />
-                  </div>
-                </div>
-
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-xs font-semibold text-slate-700 uppercase mb-1">Telefonnummer (+41) *</label>
-                    <input required type="tel" placeholder="+41 79 123 45 67" className="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-[#d4af37]" />
-                  </div>
-                  <div>
-                    <label className="block text-xs font-semibold text-slate-700 uppercase mb-1">Verfügbarkeit</label>
-                    <input type="text" placeholder="Per sofort / Nach Vereinbarung" className="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-[#d4af37]" />
+                    <label className="block text-xs font-bold text-[#001133] uppercase tracking-wider mb-2">{t('emailLabel')}</label>
+                    <input required type="email" placeholder={t('emailPlaceholder')} className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3.5 text-sm focus:outline-none focus:border-[#0060a9] focus:bg-white focus:ring-1 focus:ring-[#0060a9] transition-all" />
                   </div>
                 </div>
 
-                <div className="space-y-4 pt-2 border-t border-slate-200">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
-                    <label className="block text-xs font-semibold text-slate-700 uppercase mb-1">Lebenslauf (CV) (PDF) *</label>
-                    <input required type="file" accept=".pdf,.doc,.docx" className="w-full text-xs text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-[#d4af37]/10 file:text-[#030914] cursor-pointer" />
+                    <label className="block text-xs font-bold text-[#001133] uppercase tracking-wider mb-2">{t('phoneLabel')}</label>
+                    <input required type="tel" placeholder={t('phonePlaceholder')} className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3.5 text-sm focus:outline-none focus:border-[#0060a9] focus:bg-white focus:ring-1 focus:ring-[#0060a9] transition-all" />
                   </div>
-
                   <div>
-                    <label className="block text-xs font-semibold text-slate-700 uppercase mb-1">Arbeitszeugnisse &amp; Diplome (PDF)</label>
-                    <input type="file" multiple accept=".pdf" className="w-full text-xs text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-slate-200 file:text-slate-700 cursor-pointer" />
-                    <span className="text-[11px] text-slate-400 mt-1 block">Wichtig in der Schweiz: Bitte fügen Sie Zeugnisse früherer Arbeitgeber bei.</span>
+                    <label className="block text-xs font-bold text-[#001133] uppercase tracking-wider mb-2">{t('availabilityLabel')}</label>
+                    <input type="text" placeholder={t('availabilityPlaceholder')} className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3.5 text-sm focus:outline-none focus:border-[#0060a9] focus:bg-white focus:ring-1 focus:ring-[#0060a9] transition-all" />
                   </div>
                 </div>
 
-                <div>
-                  <label className="block text-xs font-semibold text-slate-700 uppercase mb-1">Nachricht</label>
-                  <textarea rows={3} placeholder="Kurze Beschreibung..." className="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-[#d4af37] resize-none"></textarea>
+                <div className="space-y-5 pt-4 border-t border-slate-100">
+                  <div>
+                    <label className="block text-xs font-bold text-[#001133] uppercase tracking-wider mb-2">{t('cvLabel')}</label>
+                    <input required type="file" accept=".pdf,.doc,.docx" className="w-full text-sm text-slate-500 file:mr-4 file:py-2.5 file:px-6 file:rounded-full file:border-0 file:text-xs file:font-bold file:bg-[#001133] file:text-white hover:file:bg-[#d4af37] hover:file:text-[#001133] file:transition-colors cursor-pointer" />
+                  </div>
+
+                  <div>
+                    <label className="block text-xs font-bold text-[#001133] uppercase tracking-wider mb-2">{t('certsLabel')}</label>
+                    <input type="file" multiple accept=".pdf" className="w-full text-sm text-slate-500 file:mr-4 file:py-2.5 file:px-6 file:rounded-full file:border-0 file:text-xs file:font-bold file:bg-slate-200 file:text-slate-700 hover:file:bg-slate-300 file:transition-colors cursor-pointer" />
+                    <span className="text-xs text-slate-400 mt-2 block flex items-center gap-2"><AlertTriangle className="w-3 h-3"/> {t('certsHint')}</span>
+                  </div>
                 </div>
 
-                <div className="pt-4 flex items-center justify-end gap-3 border-t border-slate-200">
+                <div className="pt-2">
+                  <label className="block text-xs font-bold text-[#001133] uppercase tracking-wider mb-2">{t('msgLabel')}</label>
+                  <textarea rows={3} placeholder={t('msgPlaceholder')} className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3.5 text-sm focus:outline-none focus:border-[#0060a9] focus:bg-white focus:ring-1 focus:ring-[#0060a9] transition-all resize-none"></textarea>
+                </div>
+
+                <div className="pt-8 flex flex-col md:flex-row items-center justify-end gap-4 border-t border-slate-100">
                   <button
                     type="button"
                     onClick={() => setSelectedJob(null)}
-                    className="px-6 py-3 rounded-xl border border-slate-300 text-slate-700 font-medium text-sm hover:bg-slate-100 transition-all"
+                    className="w-full md:w-auto px-8 py-3.5 rounded-xl text-slate-600 font-bold text-sm hover:bg-slate-100 transition-all uppercase tracking-wider"
                   >
-                    Abbrechen
+                    {t('cancelBtn')}
                   </button>
                   <button
                     type="submit"
                     disabled={isSubmitting}
-                    className="bg-[#d4af37] text-slate-950 font-bold px-8 py-3 rounded-xl hover:bg-[#e6c55d] transition-all text-sm shadow-md disabled:opacity-50"
+                    className="w-full md:w-auto bg-[#d4af37] text-[#001133] font-extrabold px-10 py-3.5 rounded-xl hover:bg-[#001133] hover:text-white transition-all text-sm shadow-lg disabled:opacity-50 uppercase tracking-wider"
                   >
-                    {isSubmitting ? 'Wird gesendet...' : 'Bewerbung Absenden'}
+                    {isSubmitting ? t('submittingBtn') : t('submitBtn')}
                   </button>
                 </div>
               </form>
             )}
 
-          </div>
+          </motion.div>
         </div>
       )}
 

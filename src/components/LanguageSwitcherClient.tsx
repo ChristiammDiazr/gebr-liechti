@@ -1,32 +1,43 @@
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
-import { usePathname, useRouter } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 
-// Usamos imágenes SVG reales de banderas circulares para garantizar que se vean perfectas en Windows y Mac
+// Usamos banderas de alta calidad desde un CDN profesional en lugar de emojis de Windows
 const languages = [
-  { code: 'es', short: 'ES', name: 'Español', flagUrl: 'https://hatscripts.github.io/circle-flags/flags/es.svg' },
-  { code: 'de', short: 'DE', name: 'Deutsch', flagUrl: 'https://hatscripts.github.io/circle-flags/flags/de.svg' }
+  { code: 'de', name: 'Deutsch', flag: 'https://flagcdn.com/w40/ch.png' },
+  { code: 'en', name: 'English', flag: 'https://flagcdn.com/w40/gb.png' },
+  { code: 'fr', name: 'Français', flag: 'https://flagcdn.com/w40/fr.png' },
+  { code: 'it', name: 'Italiano', flag: 'https://flagcdn.com/w40/it.png' },
+  { code: 'pt', name: 'Português', flag: 'https://flagcdn.com/w40/pt.png' },
+  { code: 'es', name: 'Español', flag: 'https://flagcdn.com/w40/es.png' }
 ];
 
 export default function LanguageSwitcherClient({ currentLocale }: { currentLocale: string }) {
-  const [isOpen, setIsOpen] = useState(false);
-  const dropdownRef = useRef<HTMLDivElement>(null);
-  const router = useRouter();
   const pathname = usePathname();
-
+  const [isOpen, setIsOpen] = useState(false);
+  const menuRef = useRef<HTMLDivElement>(null);
+  
   const currentLang = languages.find((l) => l.code === currentLocale) || languages[0];
 
-  const handleSelect = (code: string) => {
+  const handleChange = (newLocale: string) => {
     setIsOpen(false);
-    if (code === currentLocale) return;
-    const newPath = pathname.replace(`/${currentLocale}`, `/${code}`);
-    router.push(newPath);
+    if (newLocale === currentLocale) return;
+    
+    // Método infalible para forzar el cambio en cualquier subpágina
+    const pathSegments = pathname.split('/').filter(Boolean);
+    if (pathSegments.length > 0 && languages.some(l => l.code === pathSegments[0])) {
+      pathSegments[0] = newLocale; 
+    } else {
+      pathSegments.unshift(newLocale); 
+    }
+    const newPath = '/' + pathSegments.join('/');
+    window.location.href = newPath; 
   };
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+      if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
         setIsOpen(false);
       }
     };
@@ -35,55 +46,41 @@ export default function LanguageSwitcherClient({ currentLocale }: { currentLocal
   }, []);
 
   return (
-    <div className="relative" ref={dropdownRef}>
-      
-      {/* BOTÓN PRINCIPAL */}
+    <div className="relative z-[100]" ref={menuRef}>
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center gap-2 bg-white text-gray-900 px-3 py-1.5 rounded-full shadow-md border border-gray-200 hover:border-[#0060a9] transition-all cursor-pointer"
+        className="flex items-center gap-2 bg-white text-[#001133] hover:bg-gray-100 px-4 py-2.5 rounded-full border border-gray-200 transition-all shadow-md"
       >
-        {/* Globo Azul */}
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.8} stroke="currentColor" className="w-5 h-5 text-[#0060a9]">
-          <path strokeLinecap="round" strokeLinejoin="round" d="M12 21a9.004 9.004 0 008.716-6.747M12 21a9.004 9.004 0 01-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 017.843 4.582M12 3a8.998 8.998 0 00-7.843 4.582m15.686 0A11.953 11.953 0 0112 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0121 12c0 .778-.099 1.533-.284 2.253m0 0A17.919 17.919 0 0112 16.5c-3.162 0-6.133-.815-8.716-2.247m0 0A9.015 9.015 0 013 12c0-1.605.42-3.113 1.157-4.418" />
-        </svg>
-        <span className="font-extrabold text-[15px]">{currentLang.short}</span>
-        
-        {/* Imagen de la bandera circular */}
-        <img src={currentLang.flagUrl} alt={currentLang.name} className="w-5 h-5 rounded-full object-cover shadow-sm" />
-        
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className={`w-3.5 h-3.5 text-gray-400 transition-transform duration-200 ml-1 ${isOpen ? 'rotate-180' : ''}`}>
+        <span className="font-bold uppercase tracking-wide text-xs flex items-center gap-2">
+          {/* Mostramos la bandera en imagen */}
+          <img src={currentLang.flag} alt={currentLang.code} className="w-5 h-auto rounded-sm shadow-sm" /> 
+          {currentLang.code}
+        </span>
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={3} stroke="currentColor" className={`w-3 h-3 transition-transform ${isOpen ? 'rotate-180' : ''}`}>
           <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
         </svg>
       </button>
 
-      {/* MENÚ DESPLEGABLE */}
       {isOpen && (
-        <div className="absolute right-0 mt-2 w-56 bg-[#f7f9fb] rounded-2xl shadow-xl border border-gray-100 overflow-hidden z-[100] py-3 animate-fade-in-down">
-          
-          <div className="px-5 pb-2 mb-2 border-b border-gray-200/60">
-            <span className="text-[11px] font-bold uppercase tracking-widest text-[#7a8b9a]">SELECCIONAR IDIOMA</span>
+        <div className="absolute top-full right-0 mt-2 bg-white rounded-2xl shadow-[0_10px_40px_rgba(0,0,0,0.2)] border border-gray-100 overflow-hidden w-48 flex flex-col py-2 z-[100]">
+          <div className="px-4 py-2 text-[10px] font-bold text-gray-400 uppercase tracking-widest border-b border-gray-100 mb-1">
+            SELECCIONAR IDIOMA
           </div>
-
-          <div className="flex flex-col">
-            {languages.map((lang) => {
-              const isSelected = currentLocale === lang.code;
-              return (
-                <button
-                  key={lang.code}
-                  onClick={() => handleSelect(lang.code)}
-                  className={`flex items-center gap-3 px-5 py-3 transition-all w-full text-left ${
-                    isSelected 
-                      ? 'bg-[#e5eff6] text-[#0060a9] font-bold border-l-4 border-[#0060a9]' 
-                      : 'bg-transparent text-[#5c6e7f] font-medium border-l-4 border-transparent hover:bg-white hover:text-gray-800'
-                  }`}
-                >
-                  <img src={lang.flagUrl} alt={lang.name} className="w-6 h-6 rounded-full object-cover shadow-sm" />
-                  <span className="text-[15px]">{lang.name}</span>
-                </button>
-              );
-            })}
-          </div>
-          
+          {languages.map((lang) => (
+            <button
+              key={lang.code}
+              onClick={() => handleChange(lang.code)}
+              className={`flex items-center gap-3 px-4 py-3 transition-colors w-full text-left ${
+                currentLocale === lang.code 
+                  ? 'bg-blue-50 text-[#0060a9] font-bold border-l-4 border-[#0060a9]' 
+                  : 'text-gray-600 font-medium hover:bg-gray-50 border-l-4 border-transparent hover:border-gray-300'
+              }`}
+            >
+              {/* Mostramos las banderas en imagen en la lista */}
+              <img src={lang.flag} alt={lang.name} className="w-6 h-auto shadow-sm rounded-sm" />
+              <span className="text-sm">{lang.name}</span>
+            </button>
+          ))}
         </div>
       )}
     </div>

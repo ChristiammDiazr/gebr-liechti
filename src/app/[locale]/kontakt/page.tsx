@@ -11,12 +11,12 @@ export default async function Kontakt({ params }: { params: Promise<{ locale: st
   return (
     <main className="min-h-screen bg-liechti-gray overflow-hidden">
       
-      {/* 0. HERO CON FOTOGRAFÍA PANORÁMICA Y AÉREA DE AARGAU, SUIZA */}
+      {/* 0. HERO CON FOTOGRAFÍA DE INDUSTRIA / HVAC / ALMACÉN */}
       <section className="relative w-full h-[50vh] min-h-[400px] flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0 z-0">
           <img 
-            src="http://googleusercontent.com/image_collection/image_retrieval/16901414401387803084_0" 
-            alt="Vista panorámica y aérea de Aarau, Cantón de Aargau, Suiza" 
+            src="/hero/kontakt-bg.jpg"
+            alt="Infraestructura Industrial y Almacenes HVAC" 
             className="w-full h-full object-cover scale-105"
           />
           <div className="absolute inset-0 bg-[#001133]/75 mix-blend-multiply"></div>
