@@ -24,7 +24,10 @@ export default function LanguageSwitcherClient({ currentLocale }: { currentLocal
     setIsOpen(false);
     if (newLocale === currentLocale) return;
     
-    // Método infalible para forzar el cambio en cualquier subpágina
+    // 1. SOLUCIÓN CRÍTICA: Actualizamos la cookie para que next-intl no nos devuelva al idioma anterior
+    document.cookie = `NEXT_LOCALE=${newLocale}; path=/; max-age=31536000`;
+    
+    // 2. Construimos la nueva ruta
     const pathSegments = pathname.split('/').filter(Boolean);
     if (pathSegments.length > 0 && languages.some(l => l.code === pathSegments[0])) {
       pathSegments[0] = newLocale; 
@@ -32,6 +35,8 @@ export default function LanguageSwitcherClient({ currentLocale }: { currentLocal
       pathSegments.unshift(newLocale); 
     }
     const newPath = '/' + pathSegments.join('/');
+    
+    // 3. Forzamos la recarga en el idioma correcto
     window.location.href = newPath; 
   };
 

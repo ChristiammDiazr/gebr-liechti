@@ -15,7 +15,7 @@ export default async function Kontakt({ params }: { params: Promise<{ locale: st
       <section className="relative w-full h-[50vh] min-h-[400px] flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0 z-0">
           <img 
-            src="/hero/kontakt-bg.jpg"
+            src="/hero/kontakt-bg.jpg" 
             alt="Infraestructura Industrial y Almacenes HVAC" 
             className="w-full h-full object-cover scale-105"
           />
@@ -43,7 +43,7 @@ export default async function Kontakt({ params }: { params: Promise<{ locale: st
           {/* COLUMNA IZQUIERDA: FORMULARIO MODERNO */}
           <div className="bg-white rounded-3xl p-8 md:p-12 shadow-[0_15px_50px_rgba(0,0,77,0.06)] border border-gray-100">
             <h2 className="text-2xl md:text-3xl font-extrabold text-liechti-dark mb-8 uppercase tracking-wide border-b border-gray-100 pb-4">
-              Formular
+              {t('formTitle')}
             </h2>
 
             <form className="space-y-6">
@@ -68,6 +68,22 @@ export default async function Kontakt({ params }: { params: Promise<{ locale: st
                   className="w-full bg-gray-50 border border-gray-200 rounded-xl px-6 py-4 text-gray-700 focus:outline-none focus:border-liechti-gold focus:bg-white focus:ring-1 focus:ring-liechti-gold transition-all"
                 />
               </div>
+              
+              {/* NUEVO CAMPO: TIPO DE CONSULTA (Corregido para React) */}
+              <div>
+                <select 
+                  defaultValue="" 
+                  className="w-full bg-gray-50 border border-gray-200 rounded-xl px-6 py-4 text-gray-700 focus:outline-none focus:border-liechti-gold focus:bg-white focus:ring-1 focus:ring-liechti-gold transition-all appearance-none cursor-pointer"
+                >
+                  <option value="" disabled>{t('formType')}</option>
+                  <option value="general">{t('typeOption1')}</option>
+                  <option value="visit">{t('typeOption2')}</option>
+                  <option value="quote">{t('typeOption3')}</option>
+                  <option value="support">{t('typeOption4')}</option>
+                  <option value="admin">{t('typeOption5')}</option>
+                </select>
+              </div>
+
               <div>
                 <textarea 
                   placeholder={t('formMessage')} 
@@ -181,7 +197,7 @@ export default async function Kontakt({ params }: { params: Promise<{ locale: st
             <div className="absolute bottom-4 left-4 right-4 md:bottom-6 md:left-6 md:right-6 z-20 flex flex-col gap-2 md:gap-3">
               <div className="flex flex-col sm:flex-row gap-2 md:gap-3">
                 
-                {/* Botón Google Maps con GPS automático */}
+                {/* Botón Google Maps */}
                 <a 
                   href={`https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(companyAddress)}&dir_action=navigate`} 
                   target="_blank" 
@@ -189,7 +205,7 @@ export default async function Kontakt({ params }: { params: Promise<{ locale: st
                   className="flex-1 bg-white hover:bg-gray-50 border-2 border-blue-500 text-gray-800 px-3 py-3 rounded-xl font-bold flex items-center justify-center gap-2 transition-all shadow-xl hover:shadow-2xl text-sm md:text-base"
                 >
                   <Navigation className="w-5 h-5 text-blue-600" />
-                  Ruta con Google Maps
+                  {t('btnGoogleMaps')}
                 </a>
                 
                 {/* Botón SBB */}
@@ -200,11 +216,11 @@ export default async function Kontakt({ params }: { params: Promise<{ locale: st
                   className="flex-1 bg-[#eb0000] hover:bg-[#cc0000] text-white px-3 py-3 rounded-xl font-bold flex items-center justify-center gap-2 transition-all shadow-xl hover:shadow-2xl text-sm md:text-base"
                 >
                   <Train className="w-5 h-5" />
-                  Horarios SBB
+                  {t('btnSBB')}
                 </a>
               </div>
 
-              {/* Botón Geoportal Camiones Aargau */}
+              {/* Botón Geoportal */}
               <a 
                 href="https://www.ag.ch/geoportal/apps/onlinekarten/?basemap=base_landeskarten_sw::topicmaps.geo.ag.ch,0.25,true&layers=avk_atr::topicmaps.geo.ag.ch;1;true&center=2649753.58,1250263.02&z=2" 
                 target="_blank" 
@@ -212,7 +228,7 @@ export default async function Kontakt({ params }: { params: Promise<{ locale: st
                 className="w-full bg-[#f97316] hover:bg-[#ea580c] text-white px-3 py-3 rounded-xl font-bold flex items-center justify-center gap-2 transition-colors shadow-xl hover:shadow-2xl text-sm md:text-base"
               >
                 <Truck className="w-5 h-5" />
-                Rutas LKW (Geoportal AG)
+                {t('btnTruck')}
               </a>
             </div>
 

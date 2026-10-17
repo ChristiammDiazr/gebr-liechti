@@ -3,15 +3,15 @@
 import { useTranslations } from 'next-intl';
 import { useParams } from 'next/navigation';
 import Link from 'next/link';
-// AQUÍ ESTÁ LA CORRECCIÓN: Agregué CheckCircle a la lista de importaciones
 import { ArrowRight, ThermometerSun, Droplets, Mountain, Sun, Flame, Wrench, CheckCircle } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 export default function HeizungPage() {
   const params = useParams();
   const locale = (params.locale as string) || 'de';
+  const t = useTranslations('HeizungPage');
+  const globalT = useTranslations('HomePage'); // Para el botón de contacto
 
-  // Variantes de animación para reutilizar
   const fadeUp = {
     hidden: { opacity: 0, y: 40 },
     visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: "easeOut" } }
@@ -52,17 +52,17 @@ export default function HeizungPage() {
           className="relative z-10 text-center px-6 max-w-4xl mx-auto mt-20"
         >
           <span className="text-liechti-gold text-sm md:text-base font-bold tracking-[0.3em] uppercase block mb-4">
-            Instalaciones de Calefacción
+            {t('heroSubtitle')}
           </span>
           <h1 className="text-5xl md:text-6xl font-extrabold text-white mb-6 drop-shadow-lg">
-            ¿Qué sistema es el adecuado para mí?
+            {t('heroTitle')}
           </h1>
           <p className="text-lg md:text-xl text-gray-200 leading-relaxed font-light">
-            Hoy en día, la variedad de sistemas de calefacción es enorme, por lo que encontrar el sistema adecuado para un proyecto específico puede resultar complicado. El tamaño de la propiedad, los costes de los sistemas y las normativas legales desempeñan un papel importante. Podemos ayudarle a encontrar la solución ideal.
+            {t('intro')}
           </p>
           <div className="mt-10">
              <Link href={`/${locale}/kontakt`} className="inline-flex items-center gap-2 bg-liechti-gold hover:bg-white text-[#001133] px-8 py-4 rounded-xl font-bold transition-all shadow-[0_0_20px_rgba(212,175,55,0.4)] hover:shadow-[0_0_30px_rgba(255,255,255,0.6)] hover:-translate-y-1 group">
-                Sistemas de Calefacción <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                {globalT('btnContact')} <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
              </Link>
           </div>
         </motion.div>
@@ -78,7 +78,7 @@ export default function HeizungPage() {
             variants={slideLeft}
             className="order-2 lg:order-1"
           >
-            <h2 className="text-4xl font-extrabold text-[#001133] mb-6">Innovación y sostenibilidad</h2>
+            <h2 className="text-4xl font-extrabold text-[#001133] mb-6">{t('systemsTitle')}</h2>
             <h3 className="text-2xl font-bold text-[#0060a9] mb-6">Los sistemas de calefacción respetuosos con el medio ambiente son una necesidad hoy en día.</h3>
             <p className="text-gray-600 text-lg leading-relaxed mb-6">
               <strong>Las bombas de calor</strong> siguen siendo la tecnología más avanzada entre los sistemas de calefacción innovadores que extraen <strong>energía térmica del suelo, el aire o el agua subterránea</strong>. Su eficiencia es especialmente alta cuando se combinan <strong>con calefacción por suelo radiante</strong>.
@@ -133,9 +133,9 @@ export default function HeizungPage() {
                 </div>
               </div>
               <div className="p-8 flex-1 flex flex-col bg-white">
-                <h3 className="text-2xl font-bold text-[#001133] mb-4 uppercase group-hover:text-[#0060a9] transition-colors">Aire-Agua</h3>
+                <h3 className="text-2xl font-bold text-[#001133] mb-4 uppercase group-hover:text-[#0060a9] transition-colors">{t('airWaterTitle')}</h3>
                 <p className="text-gray-600 leading-relaxed">
-                  La bomba de calor aire-agua, la más popular de todas, se utiliza no solo para calefacción central, sino también para agua caliente sanitaria. Según el fabricante y el modelo, es apta para instalación en interiores como en exteriores. Una bomba de calor aire-agua extrae calor del aire exterior. Un aire exterior más cálido se traduce en un rendimiento más eficiente.
+                  {t('airWaterDesc')}
                 </p>
               </div>
             </motion.div>
@@ -156,9 +156,9 @@ export default function HeizungPage() {
                 </div>
               </div>
               <div className="p-8 flex-1 flex flex-col bg-white">
-                <h3 className="text-2xl font-bold text-[#001133] mb-4 uppercase group-hover:text-[#0060a9] transition-colors">Agua-Agua</h3>
+                <h3 className="text-2xl font-bold text-[#001133] mb-4 uppercase group-hover:text-[#0060a9] transition-colors">{t('waterWaterTitle')}</h3>
                 <p className="text-gray-600 leading-relaxed">
-                  Es el sistema de bomba de calor más eficiente. Sin embargo, implica una mayor inversión que una bomba de calor geotérmica. Generalmente, se requieren dos pozos para la extracción de energía: uno de suministro y otro de retorno con su correspondiente perforación. Se requieren análisis geológicos y permisos especiales.
+                  {t('waterWaterDesc')}
                 </p>
               </div>
             </motion.div>
@@ -182,10 +182,10 @@ export default function HeizungPage() {
               <div className="p-3 bg-[#0060a9]/10 rounded-xl group-hover:bg-[#0060a9]/20 transition-colors">
                 <Mountain className="w-8 h-8 text-[#0060a9] transform group-hover:scale-110 transition-transform" />
               </div>
-              <h2 className="text-3xl font-extrabold text-[#001133] uppercase">Sondas Geotérmicas</h2>
+              <h2 className="text-3xl font-extrabold text-[#001133] uppercase">{t('geoTitle')}</h2>
             </div>
             <p className="text-gray-600 leading-relaxed mb-8 flex-1">
-              Las bombas de calor geotérmicas se consideran muy eficientes, pero son más caras que las bombas de calor aire-agua, ya que la fuente de calor debe extraerse mediante un pozo. La instalación requiere una perforación de entre 100 y 220 metros de profundidad. Tras un análisis geológico se requiere un permiso especial.
+              {t('geoDesc')}
             </p>
             <div className="h-[300px] rounded-2xl overflow-hidden shadow-[0_15px_30px_rgba(0,0,0,0.1)] border-4 border-white group">
               <img src="/heizung/card-erdsonden.jpg" alt="Sondas Geotérmicas" className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700" />
@@ -204,10 +204,10 @@ export default function HeizungPage() {
               <div className="p-3 bg-[#d4af37]/10 rounded-xl group-hover:bg-[#d4af37]/20 transition-colors">
                 <Sun className="w-8 h-8 text-[#d4af37] transform group-hover:rotate-45 transition-transform duration-500" />
               </div>
-              <h2 className="text-3xl font-extrabold text-[#001133] uppercase">Tecnología Solar</h2>
+              <h2 className="text-3xl font-extrabold text-[#001133] uppercase">{t('solarTitle')}</h2>
             </div>
             <p className="text-gray-600 leading-relaxed mb-8 flex-1">
-              La energía solar es gratuita y limpia. A medida que aumenta la demanda de energía durante los meses más fríos, disminuye la radiación solar. Para una instalación óptima de paneles solares, es fundamental que cubran una superficie suficiente y estén orientados al sur. Combinar tecnología solar con bombas de calor reduce costes.
+              {t('solarDesc')}
             </p>
             <div className="h-[300px] rounded-2xl overflow-hidden shadow-[0_15px_30px_rgba(0,0,0,0.1)] border-4 border-white group">
               <img src="/services/solar-service.jpg" alt="Tecnología Solar" className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700" />
@@ -223,7 +223,7 @@ export default function HeizungPage() {
           className="max-w-7xl mx-auto mt-20 text-center"
         >
           <Link href={`/${locale}/kontakt`} className="inline-flex items-center gap-2 bg-[#001133] hover:bg-[#d4af37] text-white hover:text-[#001133] px-10 py-5 rounded-xl font-bold uppercase tracking-wider transition-all shadow-[0_10px_20px_rgba(0,17,51,0.2)] hover:shadow-[0_10px_30px_rgba(212,175,55,0.4)] hover:-translate-y-1">
-            Solicita un Presupuesto <ArrowRight className="w-5 h-5" />
+            {globalT('btnContact')} <ArrowRight className="w-5 h-5" />
           </Link>
         </motion.div>
       </section>
@@ -238,9 +238,9 @@ export default function HeizungPage() {
             variants={fadeUp}
             className="text-center mb-12"
           >
-            <h2 className="text-4xl font-extrabold text-[#001133] mb-6">Calefacción de biomasa</h2>
+            <h2 className="text-4xl font-extrabold text-[#001133] mb-6">{t('biomassTitle')}</h2>
             <p className="text-gray-600 text-lg max-w-4xl mx-auto leading-relaxed">
-              Los sistemas de calefacción de pellets, al igual que los de gasóleo, requieren un amplio espacio de almacenamiento. Sin embargo, una sala de depósitos de gasóleo ya existente suele poder adaptarse para almacenar pellets. La madera es una fuente de energía sostenible y reduce el impacto ambiental. Las calderas de pellets son ideales para edificios antiguos con altas temperaturas de impulsión.
+              {t('biomassDesc')} Los sistemas de calefacción de pellets, al igual que los de gasóleo, requieren un amplio espacio de almacenamiento. Sin embargo, una sala de depósitos de gasóleo ya existente suele poder adaptarse para almacenar pellets.
             </p>
           </motion.div>
           
@@ -260,7 +260,7 @@ export default function HeizungPage() {
 
           <div className="text-center">
             <Link href={`/${locale}/kontakt`} className="inline-flex bg-[#001133] hover:bg-[#d4af37] text-white hover:text-[#001133] px-10 py-4 rounded-xl font-bold uppercase tracking-wider transition-all hover:shadow-lg hover:-translate-y-1">
-              Solicita un Presupuesto
+              {globalT('btnContact')}
             </Link>
           </div>
         </div>
@@ -277,41 +277,15 @@ export default function HeizungPage() {
             variants={slideLeft}
           >
             <div className="w-16 h-1 bg-[#001133] mb-8"></div>
-            <h2 className="text-4xl font-extrabold text-[#001133] mb-8">Servicio y reparación de calefacción</h2>
+            <h2 className="text-4xl font-extrabold text-[#001133] mb-8">{t('serviceTitle')}</h2>
             <h3 className="text-2xl font-bold text-[#0060a9] mb-6 flex items-center gap-3">
               <Wrench className="w-7 h-7 text-[#0060a9]" />
-              Resolveremos su problema.
+              {t('serviceDesc')}
             </h3>
             
-            <ul className="space-y-4 text-gray-700 text-lg">
-              <li className="flex items-start gap-3 p-3 hover:bg-white rounded-lg transition-colors border border-transparent hover:border-gray-200 hover:shadow-sm">
-                <CheckCircle className="w-6 h-6 text-liechti-gold shrink-0 mt-0.5" />
-                <span>Servicio de quemadores para sistemas de calefacción de gasóleo y gas.</span>
-              </li>
-              <li className="flex items-start gap-3 p-3 hover:bg-white rounded-lg transition-colors border border-transparent hover:border-gray-200 hover:shadow-sm">
-                <CheckCircle className="w-6 h-6 text-liechti-gold shrink-0 mt-0.5" />
-                <span>Sistemas de escape.</span>
-              </li>
-              <li className="flex items-start gap-3 p-3 hover:bg-white rounded-lg transition-colors border border-transparent hover:border-gray-200 hover:shadow-sm">
-                <CheckCircle className="w-6 h-6 text-liechti-gold shrink-0 mt-0.5" />
-                <span>Sistema de calefacción solar.</span>
-              </li>
-              <li className="flex items-start gap-3 p-3 hover:bg-white rounded-lg transition-colors border border-transparent hover:border-gray-200 hover:shadow-sm">
-                <CheckCircle className="w-6 h-6 text-liechti-gold shrink-0 mt-0.5" />
-                <div>
-                  <span className="font-semibold text-[#001133]">Distribución del calor:</span>
-                  <ul className="list-disc ml-6 mt-2 text-gray-600 space-y-1">
-                    <li>Calefacción por suelo radiante</li>
-                    <li>Gobierno (Regulaciones / Valvulería)</li>
-                    <li>Radiador</li>
-                  </ul>
-                </div>
-              </li>
-            </ul>
-
             <div className="mt-10">
               <Link href={`/${locale}/kontakt`} className="inline-flex bg-[#001133] hover:bg-[#d4af37] text-white hover:text-[#001133] px-10 py-5 rounded-xl font-bold uppercase tracking-wider transition-all shadow-[0_10px_20px_rgba(0,17,51,0.15)] hover:shadow-[0_10px_30px_rgba(212,175,55,0.3)] hover:-translate-y-1">
-                Ponte en Contacto
+                {globalT('btnContact')}
               </Link>
             </div>
           </motion.div>

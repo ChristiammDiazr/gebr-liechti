@@ -9,6 +9,8 @@ import { motion } from 'framer-motion';
 export default function SanitaerPage() {
   const params = useParams();
   const locale = (params.locale as string) || 'de';
+  const t = useTranslations('SanitaerPage');
+  const globalT = useTranslations('HomePage');
 
   const fadeUp = {
     hidden: { opacity: 0, y: 40 },
@@ -50,17 +52,17 @@ export default function SanitaerPage() {
           className="relative z-10 text-center px-6 max-w-4xl mx-auto mt-20"
         >
           <span className="text-liechti-gold text-sm md:text-base font-bold tracking-[0.3em] uppercase block mb-4">
-            Instalaciones Sanitarias
+            {t('heroSubtitle')}
           </span>
           <h1 className="text-5xl md:text-6xl font-extrabold text-white mb-6 drop-shadow-lg leading-tight">
-            Diseño e innovaciones técnicas
+            {t('heroTitle')}
           </h1>
           <p className="text-lg md:text-xl text-gray-200 leading-relaxed font-light">
-            Las instalaciones sanitarias combinan una amplia gama de estilos, colores y formas con las instalaciones técnicas. Desde las más sencillas hasta las más complejas, la planificación de las instalaciones sanitarias no se limita a los sistemas de tuberías, sino que también incluye el diseño del edificio y los requisitos de su uso final.
+            {t('intro')}
           </p>
           <div className="mt-10">
              <Link href={`/${locale}/kontakt`} className="inline-flex items-center gap-2 bg-liechti-gold hover:bg-white text-[#001133] px-8 py-4 rounded-xl font-bold transition-all shadow-[0_0_20px_rgba(212,175,55,0.4)] hover:shadow-[0_0_30px_rgba(255,255,255,0.6)] hover:-translate-y-1 group">
-                Hacer Contacto <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                {globalT('btnContact')} <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
              </Link>
           </div>
         </motion.div>
@@ -80,19 +82,16 @@ export default function SanitaerPage() {
               <Building2 className="w-10 h-10 text-[#0060a9]" />
             </div>
             <h2 className="text-4xl font-extrabold text-[#001133] mb-6 leading-tight">
-              Privado, comercial o industrial:<br/>
-              <span className="text-[#0060a9]">somos su socio.</span>
+              {t('sectorsTitle')}<br/>
+              <span className="text-[#0060a9]">{t('sectorsSubtitle')}</span>
             </h2>
             <p className="text-gray-600 text-lg leading-relaxed mb-6">
-              Nuestra experiencia se extiende más allá del sector privado e incluye instalaciones de fontanería en edificios comerciales, industriales y judiciales. 
-            </p>
-            <p className="text-gray-600 text-lg leading-relaxed">
-              Como empresa especializada, ofrecemos asistencia experta para todas sus necesidades de fontanería. Garantizamos una planificación óptima y estaremos encantados de asesorarle en el diseño de sus instalaciones.
+              {t('sectorsDesc')}
             </p>
             
             <div className="mt-8 flex items-center gap-4 text-[#001133] font-bold">
                <ShieldCheck className="w-6 h-6 text-liechti-gold" />
-               <span>51 años garantizando instalaciones impecables.</span>
+               <span>{globalT('badge51')}</span>
             </div>
           </motion.div>
           
@@ -119,8 +118,8 @@ export default function SanitaerPage() {
             variants={fadeUp}
             className="text-center mb-16"
           >
-            <h2 className="text-4xl md:text-5xl font-extrabold text-[#001133] mb-4">Del concepto a la realidad</h2>
-            <p className="text-gray-500 text-lg uppercase tracking-widest font-semibold mb-6">Adaptamos nuestros servicios a sus necesidades</p>
+            <h2 className="text-4xl md:text-5xl font-extrabold text-[#001133] mb-4">{t('servicesMainTitle')}</h2>
+            <p className="text-gray-500 text-lg uppercase tracking-widest font-semibold mb-6">{t('servicesMainSubtitle')}</p>
             <div className="w-24 h-1 bg-liechti-gold mx-auto rounded-full"></div>
           </motion.div>
 
@@ -142,16 +141,16 @@ export default function SanitaerPage() {
                 </div>
               </div>
               <div className="p-8 flex-1 flex flex-col bg-white">
-                <h3 className="text-2xl font-bold text-[#001133] mb-3 uppercase group-hover:text-[#0060a9] transition-colors">Obra nueva y renovación</h3>
-                <p className="text-gray-600 mb-6 font-medium">Contáctenos para programar una visita en el sitio. Le ofrecemos:</p>
+                <h3 className="text-2xl font-bold text-[#001133] mb-3 uppercase group-hover:text-[#0060a9] transition-colors">{t('newBuildTitle')}</h3>
+                <p className="text-gray-600 mb-6 font-medium">{t('newBuildIntro')}</p>
                 
                 <ul className="space-y-3 text-gray-600 flex-1">
-                  <li className="flex items-start gap-2"><div className="w-1.5 h-1.5 rounded-full bg-liechti-gold mt-2 shrink-0"></div><span>Consulta in situ</span></li>
-                  <li className="flex items-start gap-2"><div className="w-1.5 h-1.5 rounded-full bg-liechti-gold mt-2 shrink-0"></div><span>Oferta no vinculante</span></li>
-                  <li className="flex items-start gap-2"><div className="w-1.5 h-1.5 rounded-full bg-liechti-gold mt-2 shrink-0"></div><span>Planificación</span></li>
-                  <li className="flex items-start gap-2"><div className="w-1.5 h-1.5 rounded-full bg-liechti-gold mt-2 shrink-0"></div><span>Gestión de la construcción</span></li>
-                  <li className="flex items-start gap-2"><div className="w-1.5 h-1.5 rounded-full bg-liechti-gold mt-2 shrink-0"></div><span>Coordinación con otros trabajadores de la construcción</span></li>
-                  <li className="flex items-start gap-2"><div className="w-1.5 h-1.5 rounded-full bg-liechti-gold mt-2 shrink-0"></div><span>Asesoramiento en la selección de electrodomésticos y accesorios.</span></li>
+                  <li className="flex items-start gap-2"><div className="w-1.5 h-1.5 rounded-full bg-liechti-gold mt-2 shrink-0"></div><span>{t('newBuildList1')}</span></li>
+                  <li className="flex items-start gap-2"><div className="w-1.5 h-1.5 rounded-full bg-liechti-gold mt-2 shrink-0"></div><span>{t('newBuildList2')}</span></li>
+                  <li className="flex items-start gap-2"><div className="w-1.5 h-1.5 rounded-full bg-liechti-gold mt-2 shrink-0"></div><span>{t('newBuildList3')}</span></li>
+                  <li className="flex items-start gap-2"><div className="w-1.5 h-1.5 rounded-full bg-liechti-gold mt-2 shrink-0"></div><span>{t('newBuildList4')}</span></li>
+                  <li className="flex items-start gap-2"><div className="w-1.5 h-1.5 rounded-full bg-liechti-gold mt-2 shrink-0"></div><span>{t('newBuildList5')}</span></li>
+                  <li className="flex items-start gap-2"><div className="w-1.5 h-1.5 rounded-full bg-liechti-gold mt-2 shrink-0"></div><span>{t('newBuildList6')}</span></li>
                 </ul>
               </div>
             </motion.div>
@@ -172,15 +171,15 @@ export default function SanitaerPage() {
                 </div>
               </div>
               <div className="p-8 flex-1 flex flex-col bg-white">
-                <h3 className="text-2xl font-bold text-[#001133] mb-3 uppercase group-hover:text-[#0060a9] transition-colors">Servicio y reparación</h3>
-                <p className="text-gray-600 mb-6 font-medium">Cocina, baños, lavaderos, jardín:</p>
+                <h3 className="text-2xl font-bold text-[#001133] mb-3 uppercase group-hover:text-[#0060a9] transition-colors">{t('repairTitle')}</h3>
+                <p className="text-gray-600 mb-6 font-medium">{t('repairIntro')}</p>
                 
                 <ul className="space-y-3 text-gray-600 flex-1">
-                  <li className="flex items-start gap-2"><div className="w-1.5 h-1.5 rounded-full bg-liechti-gold mt-2 shrink-0"></div><span>Servicio de calderas</span></li>
-                  <li className="flex items-start gap-2"><div className="w-1.5 h-1.5 rounded-full bg-liechti-gold mt-2 shrink-0"></div><span>Reparación de conexiones con fugas</span></li>
-                  <li className="flex items-start gap-2"><div className="w-1.5 h-1.5 rounded-full bg-liechti-gold mt-2 shrink-0"></div><span>Reparación de tuberías de agua</span></li>
-                  <li className="flex items-start gap-2"><div className="w-1.5 h-1.5 rounded-full bg-liechti-gold mt-2 shrink-0"></div><span>Reparación de daños por agua</span></li>
-                  <li className="flex items-start gap-2"><div className="w-1.5 h-1.5 rounded-full bg-liechti-gold mt-2 shrink-0"></div><span className="italic text-gray-400">y mucho más...</span></li>
+                  <li className="flex items-start gap-2"><div className="w-1.5 h-1.5 rounded-full bg-liechti-gold mt-2 shrink-0"></div><span>{t('repairList1')}</span></li>
+                  <li className="flex items-start gap-2"><div className="w-1.5 h-1.5 rounded-full bg-liechti-gold mt-2 shrink-0"></div><span>{t('repairList2')}</span></li>
+                  <li className="flex items-start gap-2"><div className="w-1.5 h-1.5 rounded-full bg-liechti-gold mt-2 shrink-0"></div><span>{t('repairList3')}</span></li>
+                  <li className="flex items-start gap-2"><div className="w-1.5 h-1.5 rounded-full bg-liechti-gold mt-2 shrink-0"></div><span>{t('repairList4')}</span></li>
+                  <li className="flex items-start gap-2"><div className="w-1.5 h-1.5 rounded-full bg-liechti-gold mt-2 shrink-0"></div><span className="italic text-gray-400">{t('repairList5')}</span></li>
                 </ul>
               </div>
             </motion.div>
@@ -194,7 +193,7 @@ export default function SanitaerPage() {
             className="mt-16 text-center"
           >
             <Link href={`/${locale}/kontakt`} className="inline-flex items-center gap-2 bg-[#001133] hover:bg-[#d4af37] text-white hover:text-[#001133] px-12 py-5 rounded-xl font-bold uppercase tracking-wider transition-all shadow-[0_10px_20px_rgba(0,17,51,0.2)] hover:shadow-[0_10px_30px_rgba(212,175,55,0.4)] hover:-translate-y-1">
-              Hazte Contacto
+              {globalT('btnContact')}
             </Link>
           </motion.div>
 
