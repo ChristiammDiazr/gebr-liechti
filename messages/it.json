@@ -23,7 +23,17 @@
     "presenceTitle": "La Nostra Presenza",
     "statCompleted": "Progetti Completati",
     "statPending": "In Corso",
-    "statNegotiation": "In Negoziazione"
+    "statNegotiation": "In Negoziazione",
+    "trendsTitle": "TENDENZE DEL SETTORE",
+    "tooltipTitle": "SISTEMI DI RISCALDAMENTO",
+    "statPump": "Pompe di Calore",
+    "statFossil": "Combustibili Fossili",
+    "statWood": "Legno & Elettricità",
+    "quoteText": "\"Sebbene l'uso dell'olio da riscaldamento sia continuamente diminuito negli ultimi 40 anni...\"",
+    "quoteSource": "— Fonte: UST (Ufficio federale di statistica)",
+    "tooltipFossil": "Fossile (Olio/Gas)",
+    "tooltipPump": "Pompe di Calore",
+    "tooltipWood": "Legno/Elettricità"
   },
   "HeizungPage": {
     "heroSubtitle": "INSTALLAZIONI DI RISCALDAMENTO",
@@ -44,7 +54,7 @@
     "serviceDesc": "Risolviamo il tuo problema: servizio bruciatori, impianti solari, riscaldamento a pavimento."
   },
   "SanitaerPage": {
-    "heroSubtitle": "INSTALLAZIONI SANITAIRES",
+    "heroSubtitle": "INSTALLAZIONI SANITARIE",
     "heroTitle": "Design e innovazioni tecniche",
     "intro": "Le installazioni sanitarie combinano stile e tecnologia. Da semplice ad altamente complesso.",
     "sectorsTitle": "PRIVATO, COMMERCIALE O INDUSTRIALE",
@@ -187,7 +197,7 @@
     "imgAlt2022": "Archivio Gebr. Liechti 2022",
     "whyUsTitle": "Perché noi?",
     "driveTitle": "Cosa ci spinge",
-    "driveQuote": "Uno stile di vita sostenibile è molto più della semplice riduzione dell'impronta di carbonio del nostro pianeta. Vivere in modo sostenibile significa assumersi la responsabilità del benessere dei nostri simili e delle generazioni future.",
+    "driveQuote": "Uno stile di vita sostenibile è molto più della semplice riduzione dell'impronta di carbonio del nostro planet. Vivere in modo sostenibile significa assumersi la responsabilità del benessere dei nostri simili e delle generazioni future.",
     "valuesTitle": "Valori fondamentali",
     "value1": "Offriamo molto più che servizi, offriamo soluzioni; i nostri clienti diventano amici e i nostri progetti partnership.",
     "value2": "Investiamo nella formazione continua per garantire ai nostri clienti la migliore esecuzione professionale con un alto livello di qualità.",

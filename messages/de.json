@@ -23,7 +23,17 @@
     "presenceTitle": "Unsere Präsenz",
     "statCompleted": "Abgeschlossene Projekte",
     "statPending": "In Ausführung",
-    "statNegotiation": "In Verhandlung"
+    "statNegotiation": "In Verhandlung",
+    "trendsTitle": "BRANCHENTRENDS",
+    "tooltipTitle": "HEIZSYSTEME",
+    "statPump": "Wärmepumpen",
+    "statFossil": "Fossile Brennstoffe",
+    "statWood": "Holz & Elektrizität",
+    "quoteText": "\"Obwohl die Nutzung von Heizöl in den letzten 40 Jahren kontinuierlich zurückgegangen ist...\"",
+    "quoteSource": "— Quelle: BFS (Bundesamt für Statistik)",
+    "tooltipFossil": "Fossil (Öl/Gas)",
+    "tooltipPump": "Wärmepumpen",
+    "tooltipWood": "Holz/Strom"
   },
   "HeizungPage": {
     "heroSubtitle": "HEIZUNGSINSTALLATIONEN",
@@ -177,7 +187,7 @@
     "title": "Über uns",
     "historyTitle": "Über uns",
     "historySubtitle": "Generationenübergreifende Präsenz",
-    "historyText1": "Unsere Firma wurde 1974 von Johann Liechti gegründet. Nach den ersten Erfolgen expandierte das Unternehmen in den folgenden Jahren stetig.",
+    "historyText1": "Unsere Firma wurde 1974 von Johann Liechti. Nach den ersten Erfolgen expandierte das Unternehmen in den folgenden Jahren stetig.",
     "historyText2": "Zwischen 1980 und 1990 ging das Unternehmen schrittweise an seine Söhne Ueli und Peter Liechti über, die ihren Erfolg für die nächsten 42 Jahre festigten.",
     "imgAlt1974": "Archiv Gebr. Liechti 1974",
     "eraDate": "2022 - Heute",

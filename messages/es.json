@@ -23,7 +23,17 @@
     "presenceTitle": "Nuestra Presencia",
     "statCompleted": "Proyectos Completados",
     "statPending": "En Ejecución",
-    "statNegotiation": "En Negociación"
+    "statNegotiation": "En Negociación",
+    "trendsTitle": "TENDENCIAS DEL SECTOR",
+    "tooltipTitle": "SISTEMAS DE CALEFACCIÓN",
+    "statPump": "Bombas de Calor",
+    "statFossil": "Combustibles Fósiles",
+    "statWood": "Madera y Electricidad",
+    "quoteText": "\"Aunque el uso de gasóleo para calefacción ha disminuido continuamente en los últimos 40 años...\"",
+    "quoteSource": "— Fuente: BFS (Oficina Federal de Estadística)",
+    "tooltipFossil": "Fósil (Petróleo/Gas)",
+    "tooltipPump": "Bombas de Calor",
+    "tooltipWood": "Madera/Electricidad"
   },
   "HeizungPage": {
     "heroSubtitle": "INSTALACIONES DE CALEFACCIÓN",

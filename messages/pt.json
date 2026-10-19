@@ -23,7 +23,17 @@
     "presenceTitle": "Nossa Presença",
     "statCompleted": "Projetos Concluídos",
     "statPending": "Em Andamento",
-    "statNegotiation": "Em Negociação"
+    "statNegotiation": "Em Negociação",
+    "trendsTitle": "TENDÊNCIAS DO SETOR",
+    "tooltipTitle": "SISTEMAS DE AQUECIMENTO",
+    "statPump": "Bombas de Calor",
+    "statFossil": "Combustíveis Fósseis",
+    "statWood": "Madeira e Eletricidade",
+    "quoteText": "\"Embora o uso de óleo de aquecimento tenha diminuído continuamente nos últimos 40 anos...\"",
+    "quoteSource": "— Fonte: BFS (Departamento Federal de Estatística)",
+    "tooltipFossil": "Fóssil (Óleo/Gás)",
+    "tooltipPump": "Bombas de Calor",
+    "tooltipWood": "Madeira/Eletricidade"
   },
   "HeizungPage": {
     "heroSubtitle": "INSTALAÇÕES DE AQUECIMENTO",
@@ -60,7 +70,7 @@
     "newBuildList4": "Gestão de obra",
     "newBuildList5": "Coordenação",
     "newBuildList6": "Aconselhamento sobre aparelhos",
-    "repairTitle": "SERVIÇO E REPARAÇÃO",
+    "repairTitle": "SERVIZIO E REPARAÇÃO",
     "repairIntro": "Cozinha, banheiros, lavanderias, jardim",
     "repairList1": "Serviço de caldeira",
     "repairList2": "Reparação de vazamentos",

@@ -5,7 +5,6 @@ import { useTranslations } from 'next-intl';
 import { useParams } from 'next/navigation';
 import { Comforter_Brush } from 'next/font/google';
 import { TrendingUp, AlertTriangle, Leaf, CheckCircle, RefreshCw, MessageSquare, MapPin, Navigation, Train, Truck, Mail, ArrowRight } from 'lucide-react';
-import { ComposableMap, Geographies, Geography } from "react-simple-maps";
 
 const comforterBrush = Comforter_Brush({ 
   weight: '400',
@@ -13,14 +12,7 @@ const comforterBrush = Comforter_Brush({
   display: 'swap',
 });
 
-const geoUrl = "https://raw.githubusercontent.com/mikpan/ch-maps/master/topojson/ch-cantons.json";
-
-const cantonIdToAbbr: Record<number, string> = {
-  1: 'ZH', 2: 'BE', 3: 'LU', 4: 'UR', 5: 'SZ', 6: 'OW', 7: 'NW', 8: 'GL', 9: 'ZG', 10: 'FR', 
-  11: 'SO', 12: 'BS', 13: 'BL', 14: 'SH', 15: 'AR', 16: 'AI', 17: 'SG', 18: 'GR', 19: 'AG', 
-  20: 'TG', 21: 'TI', 22: 'VD', 23: 'VS', 24: 'NE', 25: 'GE', 26: 'JU'
-};
-
+// Datos estadísticos por cantón
 const cantonData: Record<string, { name: string, fossil: string, pump: string, wood: string }> = {
   'AG': { name: 'Aargau', fossil: '45.2%', pump: '32.1%', wood: '22.7%' },
   'ZH': { name: 'Zürich', fossil: '48.5%', pump: '28.4%', wood: '23.1%' },
@@ -28,17 +20,14 @@ const cantonData: Record<string, { name: string, fossil: string, pump: string, w
   'LU': { name: 'Luzern', fossil: '42.8%', pump: '33.5%', wood: '23.7%' },
   'UR': { name: 'Uri', fossil: '35.1%', pump: '30.2%', wood: '34.7%' },
   'SZ': { name: 'Schwyz', fossil: '40.5%', pump: '38.1%', wood: '21.4%' },
-  'OW': { name: 'Obwalden', fossil: '38.2%', pump: '35.4%', wood: '26.4%' },
-  'NW': { name: 'Nidwalden', fossil: '39.8%', pump: '36.5%', wood: '23.7%' },
+  'OW': { name: 'Obwalden/Nidwalden', fossil: '38.2%', pump: '35.4%', wood: '26.4%' },
   'GL': { name: 'Glarus', fossil: '44.1%', pump: '29.8%', wood: '26.1%' },
   'ZG': { name: 'Zug', fossil: '46.2%', pump: '34.5%', wood: '19.3%' },
   'FR': { name: 'Fribourg', fossil: '43.5%', pump: '32.8%', wood: '23.7%' },
   'SO': { name: 'Solothurn', fossil: '46.8%', pump: '30.1%', wood: '23.1%' },
-  'BS': { name: 'Basel-Stadt', fossil: '52.1%', pump: '15.4%', wood: '32.5%' },
-  'BL': { name: 'Basel-Landschaft', fossil: '48.9%', pump: '28.7%', wood: '22.4%' },
+  'BS': { name: 'Basel', fossil: '52.1%', pump: '15.4%', wood: '32.5%' },
   'SH': { name: 'Schaffhausen', fossil: '47.5%', pump: '29.2%', wood: '23.3%' },
-  'AR': { name: 'Appenzell A.R.', fossil: '42.1%', pump: '31.5%', wood: '26.4%' },
-  'AI': { name: 'Appenzell I.R.', fossil: '39.5%', pump: '33.2%', wood: '27.3%' },
+  'AR': { name: 'Appenzell', fossil: '42.1%', pump: '31.5%', wood: '26.4%' },
   'SG': { name: 'St. Gallen', fossil: '45.7%', pump: '30.6%', wood: '23.7%' },
   'GR': { name: 'Graubünden', fossil: '38.5%', pump: '35.0%', wood: '26.5%' },
   'TG': { name: 'Thurgau', fossil: '46.3%', pump: '31.2%', wood: '22.5%' },
@@ -51,16 +40,41 @@ const cantonData: Record<string, { name: string, fossil: string, pump: string, w
   'DEFAULT': { name: 'Schweiz (Ø)', fossil: '50.3%', pump: '25.1%', wood: '24.6%' }
 };
 
+// Coordenadas porcentuales seguras para la imagen 3D de Suiza
+const cantonSpots = [
+  { code: 'AG', x: 50, y: 26 },
+  { code: 'ZH', x: 63, y: 28 },
+  { code: 'BE', x: 38, y: 48 },
+  { code: 'LU', x: 50, y: 39 },
+  { code: 'UR', x: 60, y: 50 },
+  { code: 'SZ', x: 62, y: 41 },
+  { code: 'OW', x: 53, y: 46 }, 
+  { code: 'GL', x: 71, y: 45 },
+  { code: 'ZG', x: 58, y: 36 },
+  { code: 'FR', x: 28, y: 55 },
+  { code: 'SO', x: 38, y: 28 },
+  { code: 'BS', x: 38, y: 15 },
+  { code: 'SH', x: 60, y: 12 },
+  { code: 'AR', x: 74, y: 35 },
+  { code: 'SG', x: 75, y: 24 },
+  { code: 'GR', x: 84, y: 58 },
+  { code: 'TG', x: 71, y: 18 },
+  { code: 'TI', x: 65, y: 73 },
+  { code: 'VD', x: 16, y: 56 },
+  { code: 'VS', x: 40, y: 76 },
+  { code: 'NE', x: 20, y: 39 },
+  { code: 'GE', x: 5, y: 74 },
+  { code: 'JU', x: 25, y: 25 },
+];
+
 export default function Home() {
   const params = useParams();
   const locale = (params.locale as 'de' | 'es') || 'de';
   const t = useTranslations('HomePage');
-  // AQUÍ CONECTAMOS LA SECCIÓN DE CONTACTO
   const tContact = useTranslations('ContactPage');
 
   const [currentIndex, setCurrentIndex] = useState(0);
   const [tooltip, setTooltip] = useState({ show: false, x: 0, y: 0, cantonCode: 'DEFAULT' });
-  const [mapLoaded, setMapLoaded] = useState(false);
   
   const videoRefs = useRef<(HTMLVideoElement | null)[]>([]);
 
@@ -72,10 +86,6 @@ export default function Home() {
     { type: 'image', url: '/hero-sanitaer.png' },
     { type: 'image', url: '/hero-klima.png' },
   ];
-
-  useEffect(() => {
-    setMapLoaded(true);
-  }, []);
 
   useEffect(() => {
     let timer: NodeJS.Timeout;
@@ -91,7 +101,12 @@ export default function Home() {
       if (vid && item.type === 'video') {
         if (idx === currentIndex) {
           vid.currentTime = 0;
-          vid.play().catch(e => console.log("Autoplay bloqueado por navegador", e));
+          const playPromise = vid.play();
+          if (playPromise !== undefined) {
+            playPromise.catch(() => {
+              console.log("Reproducción automática pausada por el navegador");
+            });
+          }
         } else {
           vid.pause();
         }
@@ -104,9 +119,7 @@ export default function Home() {
   const prevSlide = () => setCurrentIndex((prev) => (prev - 1 + carouselItems.length) % carouselItems.length);
   const nextSlide = () => setCurrentIndex((prev) => (prev + 1) % carouselItems.length);
 
-  const handleMouseEnter = (e: React.MouseEvent, geo: any) => {
-    const cantonId = geo.id; 
-    const code = cantonIdToAbbr[cantonId] || 'DEFAULT';
+  const handleMouseEnter = (e: React.MouseEvent, code: string) => {
     setTooltip({ show: true, x: e.clientX, y: e.clientY, cantonCode: code });
   };
   const handleMouseMove = (e: React.MouseEvent) => {
@@ -131,7 +144,8 @@ export default function Home() {
                 <video 
                   ref={(el) => { videoRefs.current[index] = el; }}
                   muted 
-                  playsInline 
+                  playsInline
+                  autoPlay={index === currentIndex}
                   onEnded={() => {
                     if (index === currentIndex) {
                       setCurrentIndex((prev) => (prev + 1) % carouselItems.length);
@@ -245,14 +259,16 @@ export default function Home() {
 
       {/* 4. SECCIÓN TENDENCIAS Y MAPA CANTONAL SUIZO */}
       <section className="relative z-30 w-full bg-[#000a1f] text-white py-24 overflow-hidden">
+        
+        {/* TOOLTIP INTERACTIVO AHORA TRADUCIDO */}
         {tooltip.show && (
           <div className="fixed z-[100] bg-[#001133]/95 backdrop-blur-md border border-[#d4af37]/30 p-5 rounded-2xl shadow-[0_10px_40px_rgba(0,0,0,0.8)] pointer-events-none transform -translate-x-1/2 -translate-y-[115%] transition-opacity duration-200 w-64" style={{ left: tooltip.x, top: tooltip.y }}>
             <h4 className="text-white font-extrabold text-lg mb-1 border-b border-white/10 pb-2">{activeData.name}</h4>
             <p className="text-[10px] text-gray-400 uppercase tracking-widest mb-3">{t('tooltipTitle')}</p>
             <div className="flex flex-col gap-3 text-sm">
-               <div className="flex items-center justify-between"><div className="flex items-center gap-2"><span className="w-3 h-3 rounded-full bg-red-500 shadow-[0_0_8px_rgba(239,68,68,0.6)]"></span><span className="text-gray-300">Fossil (Öl/Gas)</span></div><span className="text-white font-bold">{activeData.fossil}</span></div>
-               <div className="flex items-center justify-between"><div className="flex items-center gap-2"><span className="w-3 h-3 rounded-full bg-green-500 shadow-[0_0_8px_rgba(34,197,94,0.6)]"></span><span className="text-gray-300">Wärmepumpen</span></div><span className="text-[#d4af37] font-extrabold">{activeData.pump}</span></div>
-               <div className="flex items-center justify-between"><div className="flex items-center gap-2"><span className="w-3 h-3 rounded-full bg-yellow-500 shadow-[0_0_8px_rgba(234,179,8,0.6)]"></span><span className="text-gray-300">Holz/Strom</span></div><span className="text-white font-bold">{activeData.wood}</span></div>
+               <div className="flex items-center justify-between"><div className="flex items-center gap-2"><span className="w-3 h-3 rounded-full bg-red-500 shadow-[0_0_8px_rgba(239,68,68,0.6)]"></span><span className="text-gray-300">{t('tooltipFossil')}</span></div><span className="text-white font-bold">{activeData.fossil}</span></div>
+               <div className="flex items-center justify-between"><div className="flex items-center gap-2"><span className="w-3 h-3 rounded-full bg-green-500 shadow-[0_0_8px_rgba(34,197,94,0.6)]"></span><span className="text-gray-300">{t('tooltipPump')}</span></div><span className="text-[#d4af37] font-extrabold">{activeData.pump}</span></div>
+               <div className="flex items-center justify-between"><div className="flex items-center gap-2"><span className="w-3 h-3 rounded-full bg-yellow-500 shadow-[0_0_8px_rgba(234,179,8,0.6)]"></span><span className="text-gray-300">{t('tooltipWood')}</span></div><span className="text-white font-bold">{activeData.wood}</span></div>
             </div>
           </div>
         )}
@@ -288,77 +304,55 @@ export default function Home() {
             <div className="space-y-4">
               <div className="bg-white/5 border border-[#d4af37]/30 p-5 rounded-2xl backdrop-blur-md flex items-center gap-5 hover:bg-white/10 transition-colors group">
                 <div className="w-12 h-12 rounded-full bg-green-500/20 flex items-center justify-center border border-green-500/50 text-green-400 shrink-0"><TrendingUp className="w-6 h-6" /></div>
-                <div><h4 className="text-3xl font-extrabold text-white">25.1%</h4><p className="text-gray-400 font-medium uppercase tracking-wider text-[11px] mt-0.5">Wärmepumpen</p></div>
+                <div><h4 className="text-3xl font-extrabold text-white">25.1%</h4><p className="text-gray-400 font-medium uppercase tracking-wider text-[11px] mt-0.5">{t('statPump')}</p></div>
               </div>
               <div className="bg-white/5 border border-white/10 p-5 rounded-2xl backdrop-blur-md flex items-center gap-5 hover:bg-white/10 transition-colors group">
                 <div className="w-12 h-12 rounded-full bg-red-500/20 flex items-center justify-center border border-red-500/50 text-red-400 shrink-0"><AlertTriangle className="w-6 h-6" /></div>
-                <div><h4 className="text-3xl font-extrabold text-white">50.3%</h4><p className="text-gray-400 font-medium uppercase tracking-wider text-[11px] mt-0.5">Fossile Brennstoffe</p></div>
+                <div><h4 className="text-3xl font-extrabold text-white">50.3%</h4><p className="text-gray-400 font-medium uppercase tracking-wider text-[11px] mt-0.5">{t('statFossil')}</p></div>
               </div>
               <div className="bg-white/5 border border-white/10 p-5 rounded-2xl backdrop-blur-md flex items-center gap-5 hover:bg-white/10 transition-colors group">
                 <div className="w-12 h-12 rounded-full bg-yellow-500/20 flex items-center justify-center border border-yellow-500/50 text-yellow-400 shrink-0"><Leaf className="w-6 h-6" /></div>
-                <div><h4 className="text-3xl font-extrabold text-white">18.7%</h4><p className="text-gray-400 font-medium uppercase tracking-wider text-[11px] mt-0.5">Holz & Elektrizität</p></div>
+                <div><h4 className="text-3xl font-extrabold text-white">18.7%</h4><p className="text-gray-400 font-medium uppercase tracking-wider text-[11px] mt-0.5">{t('statWood')}</p></div>
               </div>
             </div>
-            <p className="text-[11px] text-gray-500 mt-6 leading-tight italic border-l-2 border-[#0060a9] pl-4">"Obwohl die Nutzung von Heizöl in den letzten 40 Jahren kontinuierlich zurückgegangen ist..." <br/><span className="font-semibold text-gray-400 mt-1 block">— Quelle: BFS (Bundesamt für Statistik)</span></p>
+            <p className="text-[11px] text-gray-500 mt-6 leading-tight italic border-l-2 border-[#0060a9] pl-4">{t('quoteText')} <br/><span className="font-semibold text-gray-400 mt-1 block">{t('quoteSource')}</span></p>
           </div>
 
-          <div className="lg:col-span-7 relative w-full h-[450px] md:h-[600px] flex items-center justify-center px-2">
-            <div className="relative w-full h-full max-w-3xl flex items-center justify-center bg-[#050b14]/50 border border-white/10 rounded-3xl p-2 md:p-6 backdrop-blur-sm shadow-2xl overflow-visible">
+          <div className="lg:col-span-7 relative w-full flex items-center justify-center px-2">
+            <div className="relative w-full max-w-4xl mx-auto bg-gradient-to-br from-[#1a202c] to-[#050b14] border border-white/5 rounded-3xl overflow-hidden shadow-2xl group">
               
-              {mapLoaded && (
-                <ComposableMap
-                  projection="geoMercator"
-                  projectionConfig={{
-                    scale: 14000,
-                    center: [8.2275, 46.8182]
-                  }}
-                  className="w-full h-full drop-shadow-[0_0_15px_rgba(0,96,169,0.5)]"
-                >
-                  <Geographies geography={geoUrl}>
-                    {({ geographies }) =>
-                      geographies.map((geo) => {
-                        const cantonAbbr = cantonIdToAbbr[geo.id];
-                        const isAG = cantonAbbr === 'AG';
-                        return (
-                          <Geography
-                            key={geo.rsmKey}
-                            geography={geo}
-                            onMouseEnter={(e) => handleMouseEnter(e, geo)}
-                            onMouseMove={handleMouseMove}
-                            onMouseLeave={handleMouseLeave}
-                            style={{
-                              default: {
-                                fill: isAG ? "#d4af37" : "#0060a9",
-                                stroke: "#ffffff",
-                                strokeWidth: 1,
-                                outline: "none"
-                              },
-                              hover: {
-                                fill: "#4fa8ff",
-                                stroke: "#ffffff",
-                                strokeWidth: 2,
-                                outline: "none",
-                                cursor: "pointer"
-                              },
-                              pressed: {
-                                fill: "#004080",
-                                outline: "none"
-                              }
-                            }}
-                          />
-                        );
-                      })
-                    }
-                  </Geographies>
-                </ComposableMap>
-              )}
+              <img 
+                src="/mapa-suiza.jpg" 
+                alt="Mapa 3D de Suiza" 
+                className="absolute inset-0 w-full h-full object-cover md:object-contain drop-shadow-[0_0_25px_rgba(212,175,55,0.1)] group-hover:scale-[1.02] transition-transform duration-700 ease-out z-0 opacity-95 mix-blend-screen"
+                useMap="#swissmap"
+              />
 
+              {/* MAPA INTERACTIVO INVISIBLE (Áreas superpuestas sobre la imagen para detectar el hover) */}
+              <div className="relative w-full aspect-[4/3] max-h-[600px] z-10">
+                {cantonSpots.map((spot) => (
+                  <div
+                    key={spot.code}
+                    className="absolute cursor-pointer"
+                    style={{
+                      left: `${spot.x}%`,
+                      top: `${spot.y}%`,
+                      width: '6%',
+                      height: '6%',
+                      transform: 'translate(-50%, -50%)',
+                    }}
+                    onMouseEnter={(e) => handleMouseEnter(e, spot.code)}
+                    onMouseMove={handleMouseMove}
+                    onMouseLeave={handleMouseLeave}
+                  />
+                ))}
+              </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* 5. SECCIÓN VISITANOS (AHORA CONECTADA A JSON Y TRADUCIDA) */}
+      {/* 5. SECCIÓN VISITANOS */}
       <section className="relative z-30 w-full bg-white py-16 md:py-20 border-t border-gray-100 overflow-hidden">
         <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           
@@ -385,7 +379,6 @@ export default function Home() {
                 <ArrowRight className="w-6 h-6 opacity-0 group-hover:opacity-100 group-hover:translate-x-2 transition-all absolute right-8" />
               </a>
 
-              {/* LEYENDA DEL CAMIÓN ACTUALIZADA */}
               <div className="flex items-start gap-3 text-gray-500 text-sm max-w-md bg-gray-50 p-3 rounded-xl border border-gray-200 mt-2">
                 <Truck className="w-5 h-5 shrink-0 text-gray-400 mt-0.5" />
                 <span className="italic leading-snug">{tContact('lkwNote')}</span>

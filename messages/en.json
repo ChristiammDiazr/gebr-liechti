@@ -23,7 +23,17 @@
     "presenceTitle": "Our Presence",
     "statCompleted": "Completed Projects",
     "statPending": "In Progress",
-    "statNegotiation": "In Negotiation"
+    "statNegotiation": "In Negotiation",
+    "trendsTitle": "INDUSTRY TRENDS",
+    "tooltipTitle": "HEATING SYSTEMS",
+    "statPump": "Heat Pumps",
+    "statFossil": "Fossil Fuels",
+    "statWood": "Wood & Electricity",
+    "quoteText": "\"Although the use of heating oil has continuously decreased over the last 40 years...\"",
+    "quoteSource": "— Source: BFS (Federal Statistical Office)",
+    "tooltipFossil": "Fossil (Oil/Gas)",
+    "tooltipPump": "Heat Pumps",
+    "tooltipWood": "Wood/Electricity"
   },
   "HeizungPage": {
     "heroSubtitle": "HEATING INSTALLATIONS",

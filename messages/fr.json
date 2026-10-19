@@ -23,7 +23,17 @@
     "presenceTitle": "Notre Présence",
     "statCompleted": "Projets Terminés",
     "statPending": "En Cours",
-    "statNegotiation": "En Négociation"
+    "statNegotiation": "En Négociation",
+    "trendsTitle": "TENDANCES DU SECTEUR",
+    "tooltipTitle": "SYSTÈMES DE CHAUFFAGE",
+    "statPump": "Pompes à Chaleur",
+    "statFossil": "Combustibles Fossiles",
+    "statWood": "Bois & Électricité",
+    "quoteText": "\"Bien que l'utilisation du mazout ait continuellement diminué au cours des 40 dernières années...\"",
+    "quoteSource": "— Source : OFS (Office fédéral de la statistique)",
+    "tooltipFossil": "Fossile (Pétrole/Gaz)",
+    "tooltipPump": "Pompes à Chaleur",
+    "tooltipWood": "Bois/Électricité"
   },
   "HeizungPage": {
     "heroSubtitle": "INSTALLATIONS DE CHAUFFAGE",
@@ -161,7 +171,7 @@
       "job1Type": "100% / Poste Fixe",
       "job1Desc": "Installation et maintenance de systèmes de chauffage modernes et écologiques.",
       "job2Title": "Installateur Sanitaire CFC (h/f/d)",
-      "job2Dept": "Sanitaire",
+      "job2Dept": "Sanitulaire",
       "job2Loc": "Hunzenschwil (Argovie)",
       "job2Type": "100% / Poste Fixe",
       "job2Desc": "Exécution d'installations sanitaires et rénovations de salles de bains de haute qualité.",
