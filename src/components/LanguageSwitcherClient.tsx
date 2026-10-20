@@ -59,7 +59,8 @@ export default function LanguageSwitcherClient({ currentLocale }: { currentLocal
         <span className="font-bold uppercase tracking-wide text-xs flex items-center gap-2">
           {/* Mostramos la bandera en imagen */}
           <img src={currentLang.flag} alt={currentLang.code} className="w-5 h-auto rounded-sm shadow-sm" /> 
-          {currentLang.code}
+          {/* AQUÍ ESTÁ EL BLOQUEO DE TRADUCCIÓN PARA EVITAR "DELAWARE" */}
+          <span translate="no" className="notranslate">{currentLang.code}</span>
         </span>
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={3} stroke="currentColor" className={`w-3 h-3 transition-transform ${isOpen ? 'rotate-180' : ''}`}>
           <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
@@ -83,7 +84,7 @@ export default function LanguageSwitcherClient({ currentLocale }: { currentLocal
             >
               {/* Mostramos las banderas en imagen en la lista */}
               <img src={lang.flag} alt={lang.name} className="w-6 h-auto shadow-sm rounded-sm" />
-              <span className="text-sm">{lang.name}</span>
+              <span className="text-sm notranslate" translate="no">{lang.name}</span>
             </button>
           ))}
         </div>
