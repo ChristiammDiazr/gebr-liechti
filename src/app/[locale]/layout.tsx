@@ -11,6 +11,10 @@ const inter = Inter({ subsets: ["latin"] });
 export const metadata: Metadata = {
   title: "Gebr. Liechti Heizung Sanitär AG",
   description: "Ihr vertrauenswürdiger Partner seit 51 Jahren in Heizung, Sanitär und Photovoltaik.",
+  // AQUÍ ESTÁ EL BLOQUEO DEL TRADUCTOR DE GOOGLE CHROME
+  other: {
+    google: 'notranslate',
+  },
 };
 
 export default async function RootLayout({
