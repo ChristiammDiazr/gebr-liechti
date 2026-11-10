@@ -16,31 +16,33 @@ const languages = [
 
 export default function LanguageSwitcherClient({ currentLocale }: { currentLocale: string }) {
   const [isOpen, setIsOpen] = useState(false);
-  const [currentLangCode, setCurrentLangCode] = useState<string>(() => {
-    if (typeof window !== 'undefined') {
-      const match = document.cookie.match(/(?:^|; )googtrans=([^;]*)/);
-      if (match) {
-        const parts = match[1].split('/');
-        return parts[parts.length - 1] || currentLocale || 'de';
+  const [currentLangCode, setCurrentLangCode] = useState<string>(currentLocale || 'de');
+  const menuRef = useRef<HTMLDivElement>(null);
+
+  // Sincronización en cliente después del primer render para evitar mismatch de hidratación
+  useEffect(() => {
+    const match = document.cookie.match(/(?:^|; )googtrans=([^;]*)/);
+    if (match) {
+      const parts = match[1].split('/');
+      const cookieLang = parts[parts.length - 1];
+      if (cookieLang && cookieLang !== currentLangCode) {
+        setCurrentLangCode(cookieLang);
       }
     }
-    return currentLocale || 'de';
-  });
+  }, []);
 
-  const menuRef = useRef<HTMLDivElement>(null);
-  
   const currentLang = languages.find((l) => l.code === currentLangCode) || languages[0];
 
   const changeGlobalLanguage = (langCode: string) => {
     setIsOpen(false);
     setCurrentLangCode(langCode);
 
-    // 1. Inyección de cookies de Google Translate para persigulidad de sesión
+    // Inyección de cookies de Google Translate
     const hostname = window.location.hostname;
     document.cookie = `googtrans=/de/${langCode}; path=/; domain=${hostname}`;
     document.cookie = `googtrans=/de/${langCode}; path=/`;
 
-    // 2. Disparo de eventos en selectores ocultos de Google Translate si existen en el DOM
+    // Disparo en selectores si existen en el DOM
     const gtCombo = document.querySelector('.goog-te-combo') as HTMLSelectElement | null;
     if (gtCombo) {
       gtCombo.value = langCode;
@@ -53,12 +55,10 @@ export default function LanguageSwitcherClient({ currentLocale }: { currentLocal
       gtWrapperSelect.dispatchEvent(new Event('change'));
     }
 
-    // 3. Invocación de función global de soporte si está cargada
     const windowAny = window as any;
     if (typeof windowAny.doGTranslate === 'function') {
       windowAny.doGTranslate(`de|${langCode}`);
     } else {
-      // Recarga sutil solo si el widget nativo requiere refresco de cookies
       window.location.reload();
     }
   };
