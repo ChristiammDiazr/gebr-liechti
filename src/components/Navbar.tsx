@@ -6,12 +6,12 @@ import { useState, useRef, useEffect } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
 
 const languages = [
-  { code: 'de', name: 'DE', flag: '🇨🇭' }, // Alemán (Suiza)
-  { code: 'en', name: 'EN', flag: '🇬🇧' }, // Inglés Británico
-  { code: 'fr', name: 'FR', flag: '🇫🇷' }, // Francés
-  { code: 'it', name: 'IT', flag: '🇮🇹' }, // Italiano
-  { code: 'pt', name: 'PT', flag: '🇵🇹' }, // Portugués
-  { code: 'es', name: 'ES', flag: '🇪🇸' }  // Español
+  { code: 'de', name: 'DE', flag: '🇨🇭' },
+  { code: 'en', name: 'EN', flag: '🇬🇧' },
+  { code: 'fr', name: 'FR', flag: '🇫🇷' },
+  { code: 'it', name: 'IT', flag: '🇮🇹' },
+  { code: 'pt', name: 'PT', flag: '🇵🇹' },
+  { code: 'es', name: 'ES', flag: '🇪🇸' }
 ];
 
 export default function Navbar() {
@@ -28,9 +28,15 @@ export default function Navbar() {
     setIsLangOpen(false);
     if (newLocale === locale) return;
     
-    // Extraer la ruta sin el locale actual y agregar el nuevo
-    const pathWithoutLocale = pathname.replace(`/${locale}`, '');
-    const newPath = `/${newLocale}${pathWithoutLocale === '' ? '' : pathWithoutLocale}`;
+    // Extracción limpia del prefijo de localización sin corromper la subruta
+    const segments = pathname.split('/').filter(Boolean);
+    if (segments.length > 0 && languages.some(l => l.code === segments[0])) {
+      segments[0] = newLocale;
+    } else {
+      segments.unshift(newLocale);
+    }
+    
+    const newPath = '/' + segments.join('/');
     router.push(newPath);
   };
 
@@ -47,41 +53,38 @@ export default function Navbar() {
   return (
     <nav className="absolute top-0 left-0 w-full z-50 py-4 px-4 sm:px-6 md:px-12 lg:px-24 flex items-center justify-between bg-gradient-to-b from-[#000a1f]/90 via-[#000a1f]/40 to-transparent">
       
-      {/* Logo Corporativo */}
+      {/* Logo Corporativo Liechti */}
       <Link 
         href={`/${locale}`} 
         className="relative z-50 bg-white border-2 border-[#d4af37] rounded-xl px-5 py-2.5 flex items-center justify-center shadow-[0_0_20px_rgba(212,175,55,0.6)] transition-transform hover:scale-105"
       >
         <img 
           src="/logo.png" 
-          alt="Gebr. Liechti Logo" 
+          alt="Gebr. Liechti AG Logo" 
           className="h-8 md:h-10 lg:h-12 w-auto" 
         />
       </Link>
 
-      {/* Menú Principal de Navegación */}
+      {/* Menú Principal dinámico y multi-idioma */}
       <div className="hidden lg:flex items-center gap-6 xl:gap-8">
-        <Link href={`/${locale}/heizung`} className="text-white font-bold hover:text-[#d4af37] transition-colors tracking-wide drop-shadow-md text-sm xl:text-base">Heizung</Link>
-        <Link href={`/${locale}/sanitaer`} className="text-white font-bold hover:text-[#d4af37] transition-colors tracking-wide drop-shadow-md text-sm xl:text-base">Sanitär</Link>
-        <Link href={`/${locale}/klima`} className="text-white font-bold hover:text-[#d4af37] transition-colors tracking-wide drop-shadow-md text-sm xl:text-base">Klima & Lüftung</Link>
-        
-        {/* Uniformizados "Karriere" y "Quiénes Somos" */}
-        <Link href={`/${locale}/karriere`} className="text-white font-bold hover:text-[#d4af37] transition-colors tracking-wide drop-shadow-md text-sm xl:text-base">Karriere</Link>
-        <Link href={`/${locale}/ueber-uns`} className="text-white font-bold hover:text-[#d4af37] transition-colors tracking-wide drop-shadow-md text-sm xl:text-base">Quiénes Somos</Link>
-        
-        <Link href={`/${locale}/kontakt`} className="text-white font-bold hover:text-[#d4af37] transition-colors tracking-wide drop-shadow-md text-sm xl:text-base">Kontakt</Link>
+        <Link href={`/${locale}/ueber-uns`} className="text-white font-bold hover:text-[#d4af37] transition-colors tracking-wide drop-shadow-md text-sm xl:text-base">{t('navAbout')}</Link>
+        <Link href={`/${locale}/heizung`} className="text-white font-bold hover:text-[#d4af37] transition-colors tracking-wide drop-shadow-md text-sm xl:text-base">{t('navHeizung')}</Link>
+        <Link href={`/${locale}/sanitaer`} className="text-white font-bold hover:text-[#d4af37] transition-colors tracking-wide drop-shadow-md text-sm xl:text-base">{t('navSanitaer')}</Link>
+        <Link href={`/${locale}/klima`} className="text-white font-bold hover:text-[#d4af37] transition-colors tracking-wide drop-shadow-md text-sm xl:text-base">{t('navKlima')} & {t('navLueftung')}</Link>
+        <Link href={`/${locale}/karriere`} className="text-white font-bold hover:text-[#d4af37] transition-colors tracking-wide drop-shadow-md text-sm xl:text-base">{t('navCareer')}</Link>
+        <Link href={`/${locale}/kontakt`} className="text-white font-bold hover:text-[#d4af37] transition-colors tracking-wide drop-shadow-md text-sm xl:text-base">{t('btnContact')}</Link>
       </div>
 
       {/* Botones de Acción (Portal y Selector de Idiomas) */}
       <div className="flex items-center gap-3 md:gap-4 z-50">
         <Link 
-          href={`/${locale}/portal`} 
+          href={`/${locale}/login`} 
           className="hidden md:flex bg-[#d4af37] text-[#001133] hover:bg-white px-4 md:px-5 py-2 md:py-2.5 rounded-full font-bold text-xs md:text-sm transition-colors items-center gap-2 shadow-lg"
         >
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-4 h-4">
             <path fillRule="evenodd" d="M7.5 6a4.5 4.5 0 119 0 4.5 4.5 0 01-9 0zM3.751 20.105a8.25 8.25 0 0116.498 0 .75.75 0 01-.437.695A18.683 18.683 0 0112 22.5c-2.786 0-5.433-.608-7.812-1.7a.75.75 0 01-.437-.695z" clipRule="evenodd" />
           </svg>
-          <span className="hidden xl:inline">Portal Login</span>
+          <span className="hidden xl:inline">{t('btnPortal')}</span>
         </Link>
         
         {/* Selector de Idiomas Desplegable */}
@@ -89,6 +92,7 @@ export default function Navbar() {
           <button
             onClick={() => setIsLangOpen(!isLangOpen)}
             className="flex items-center gap-1.5 md:gap-2 bg-[#001433]/80 hover:bg-[#000a1f] px-3 md:px-4 py-2 rounded-full border border-white/30 hover:border-[#d4af37] transition-all backdrop-blur-md shadow-lg"
+            type="button"
           >
             <span className="font-bold text-white uppercase tracking-wide text-xs flex items-center gap-2">
               <span className="text-sm">{currentLang.flag}</span> {currentLang.name}
@@ -104,6 +108,7 @@ export default function Navbar() {
                 <button
                   key={lang.code}
                   onClick={() => handleLanguageChange(lang.code)}
+                  type="button"
                   className={`flex items-center justify-between px-4 py-3 transition-colors w-full text-left ${
                     locale === lang.code 
                       ? 'bg-[#001133]/5 text-[#001133] font-bold border-l-4 border-[#001133]' 

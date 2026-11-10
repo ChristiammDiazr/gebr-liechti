@@ -3,14 +3,14 @@
 import { useTranslations } from 'next-intl';
 import { useParams } from 'next/navigation';
 import Link from 'next/link';
-import { ArrowRight, ThermometerSun, Droplets, Mountain, Sun, Flame, Wrench, CheckCircle } from 'lucide-react';
+import { ArrowRight, ThermometerSun, Droplets, Mountain, Sun, Flame, Wrench } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 export default function HeizungPage() {
   const params = useParams();
   const locale = (params.locale as string) || 'de';
   const t = useTranslations('HeizungPage');
-  const globalT = useTranslations('HomePage'); // Para el botón de contacto
+  const globalT = useTranslations('HomePage');
 
   const fadeUp = {
     hidden: { opacity: 0, y: 40 },
@@ -38,7 +38,7 @@ export default function HeizungPage() {
             animate={{ scale: 1 }}
             transition={{ duration: 2, ease: "easeOut" }}
             src="/heizung/hero-heizung-consulting.jpg" 
-            alt="Consultoría de Calefacción Gebr. Liechti" 
+            alt="Consultoría de Calefacción Gebr. Liechti AG" 
             className="w-full h-full object-cover"
           />
           <div className="absolute inset-0 bg-[#001133]/70 mix-blend-multiply"></div>
@@ -79,12 +79,12 @@ export default function HeizungPage() {
             className="order-2 lg:order-1"
           >
             <h2 className="text-4xl font-extrabold text-[#001133] mb-6">{t('systemsTitle')}</h2>
-            <h3 className="text-2xl font-bold text-[#0060a9] mb-6">Los sistemas de calefacción respetuosos con el medio ambiente son una necesidad hoy en día.</h3>
+            <h3 className="text-2xl font-bold text-[#0060a9] mb-6">{t('systemsSubtitle')}</h3>
             <p className="text-gray-600 text-lg leading-relaxed mb-6">
-              <strong>Las bombas de calor</strong> siguen siendo la tecnología más avanzada entre los sistemas de calefacción innovadores que extraen <strong>energía térmica del suelo, el aire o el agua subterránea</strong>. Su eficiencia es especialmente alta cuando se combinan <strong>con calefacción por suelo radiante</strong>.
+              {t('systemsText1')}
             </p>
             <p className="text-gray-600 text-lg leading-relaxed">
-              Sin embargo, un tercio de la energía que produce una bomba de calor se <strong>genera mediante electricidad</strong>. Por lo tanto, <strong>se recomienda instalar un sistema fotovoltaico</strong>, ya que minimiza los costes energéticos. La inversión inicial se compensa con el tiempo gracias al menor coste de generación de energía.
+              {t('systemsText2')}
             </p>
           </motion.div>
           
@@ -111,7 +111,7 @@ export default function HeizungPage() {
             variants={fadeUp}
             className="text-center mb-16"
           >
-            <h2 className="text-4xl md:text-5xl font-extrabold text-[#001133] mb-4">Bombas de calor</h2>
+            <h2 className="text-4xl md:text-5xl font-extrabold text-[#001133] mb-4">{t('heatPumpsSectionTitle')}</h2>
             <div className="w-24 h-1 bg-liechti-gold mx-auto rounded-full"></div>
           </motion.div>
 
@@ -240,7 +240,7 @@ export default function HeizungPage() {
           >
             <h2 className="text-4xl font-extrabold text-[#001133] mb-6">{t('biomassTitle')}</h2>
             <p className="text-gray-600 text-lg max-w-4xl mx-auto leading-relaxed">
-              {t('biomassDesc')} Los sistemas de calefacción de pellets, al igual que los de gasóleo, requieren un amplio espacio de almacenamiento. Sin embargo, una sala de depósitos de gasóleo ya existente suele poder adaptarse para almacenar pellets.
+              {t('biomassDesc')}
             </p>
           </motion.div>
           

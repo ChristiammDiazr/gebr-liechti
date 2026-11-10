@@ -3,6 +3,7 @@ import { NextIntlClientProvider } from 'next-intl';
 import { getMessages, getTranslations } from 'next-intl/server';
 import { Inter } from "next/font/google";
 import Link from 'next/link';
+import Script from 'next/script';
 import LanguageSwitcherClient from "@/components/LanguageSwitcherClient";
 import "@/app/globals.css"; 
 
@@ -10,11 +11,7 @@ const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Gebr. Liechti Heizung Sanitär AG",
-  description: "Ihr vertrauenswürdiger Partner seit 51 Jahren in Heizung, Sanitär und Photovoltaik.",
-  // AQUÍ ESTÁ EL BLOQUEO DEL TRADUCTOR DE GOOGLE CHROME
-  other: {
-    google: 'notranslate',
-  },
+  description: "Ihr vertrauenswürdiger Partner seit 1974 in Heizung, Sanitär und Photovoltaik.",
 };
 
 export default async function RootLayout({
@@ -32,7 +29,29 @@ export default async function RootLayout({
 
   return (
     <html lang={locale}>
+      <head>
+        {/* Carga del inicializador de Google Translate */}
+        <Script id="google-translate-init" strategy="afterInteractive">
+          {`
+            function googleTranslateElementInit() {
+              new window.google.translate.TranslateElement({
+                pageLanguage: 'de',
+                includedLanguages: 'de,en,fr,it,pt,es,sq,pl',
+                autoDisplay: false
+              }, 'google_translate_element');
+            }
+          `}
+        </Script>
+        <Script
+          id="google-translate-script"
+          src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"
+          strategy="afterInteractive"
+        />
+      </head>
       <body className={inter.className}>
+        {/* Contenedor oculto exigido por Google Translate */}
+        <div id="google_translate_element" style={{ display: 'none', visibility: 'hidden' }}></div>
+
         <NextIntlClientProvider messages={messages}>
           
           {/* HEADER GLOBAL */}
@@ -58,7 +77,7 @@ export default async function RootLayout({
                   style={{
                     backgroundColor: 'rgba(255, 255, 255, 0.85)',
                     backdropFilter: 'blur(12px)',
-                    WebkitBackdropFilter: 'blur(12px)', // Soporte para Safari
+                    WebkitBackdropFilter: 'blur(12px)',
                     border: '1.5px solid rgba(212, 175, 55, 0.8)',
                     zIndex: 10
                   }}
@@ -75,15 +94,11 @@ export default async function RootLayout({
             
             {/* NAVEGACIÓN PRINCIPAL */}
             <nav className="hidden lg:flex gap-8 font-medium text-base xl:text-lg items-center">
-              {/* QUIÉNES SOMOS EN PRIMERA POSICIÓN */}
               <Link href={`/${locale}/ueber-uns`} className="hover:text-liechti-gold transition-colors duration-300 drop-shadow-md">{t('navAbout')}</Link>
               <Link href={`/${locale}/heizung`} className="hover:text-liechti-gold transition-colors duration-300 drop-shadow-md">{t('navHeizung')}</Link>
               <Link href={`/${locale}/sanitaer`} className="hover:text-liechti-gold transition-colors duration-300 drop-shadow-md">{t('navSanitaer')}</Link>
               <Link href={`/${locale}/klima`} className="hover:text-liechti-gold transition-colors duration-300 drop-shadow-md">{t('navKlima')} & {t('navLueftung')}</Link>
-              
-              {/* KARRIERE UNIFICADO: Sin el color dorado fijo */}
               <Link href={`/${locale}/karriere`} className="hover:text-liechti-gold transition-colors duration-300 drop-shadow-md">{t('navCareer')}</Link>
-              
               <Link href={`/${locale}/kontakt`} className="hover:text-liechti-gold transition-colors duration-300 drop-shadow-md">{t('btnContact')}</Link>
             </nav>
             
@@ -99,7 +114,7 @@ export default async function RootLayout({
 
               <LanguageSwitcherClient currentLocale={locale} />
 
-              <button className="lg:hidden text-liechti-gold hover:text-white transition-colors">
+              <button className="lg:hidden text-liechti-gold hover:text-white transition-colors" type="button">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-8 h-8">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
                 </svg>
@@ -109,12 +124,12 @@ export default async function RootLayout({
 
           {children}
 
-          {/* FOOTER CORPORATIVO CON ENLACES LEGALES */}
+          {/* FOOTER CORPORATIVO CON ENLACES LEGALES Y SEPARADOR ELEGANTE DE PUNTO MEDIO · */}
           <footer className="bg-liechti-dark text-white pt-16 pb-8 border-t-[6px] border-liechti-gold">
             <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-12 text-center md:text-left">
               <div>
                 <h4 className="text-2xl font-extrabold tracking-wider mb-4">GEBR. <span className="text-liechti-gold">LIECHTI</span> AG</h4>
-                <p className="text-gray-400 text-sm">Heizung . Sanitär . Photovoltaik . Solartechnik . Klima . Lüftung</p>
+                <p className="text-gray-400 text-sm">Heizung · Sanitär · Photovoltaik · Solartechnik · Klima · Lüftung</p>
               </div>
               <div>
                 <h4 className="text-liechti-gold font-bold mb-4 uppercase tracking-widest">{tFooter('hqTitle')}</h4>

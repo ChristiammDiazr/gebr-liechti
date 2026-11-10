@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { useTranslations } from 'next-intl';
 import { useParams } from 'next/navigation';
+import Link from 'next/link';
 import { Comforter_Brush } from 'next/font/google';
 import { TrendingUp, AlertTriangle, Leaf, CheckCircle, RefreshCw, MessageSquare, MapPin, Navigation, Train, Truck, Mail, ArrowRight } from 'lucide-react';
 
@@ -69,7 +70,7 @@ const cantonSpots = [
 
 export default function Home() {
   const params = useParams();
-  const locale = (params.locale as 'de' | 'es') || 'de';
+  const locale = (params.locale as string) || 'de';
   const t = useTranslations('HomePage');
   const tContact = useTranslations('ContactPage');
 
@@ -156,7 +157,7 @@ export default function Home() {
                   <source src={item.url} type="video/mp4" />
                 </video>
               ) : (
-                <img src={item.url} alt="Gebr. Liechti" className="w-full h-full object-cover opacity-85 scale-105 transition-transform duration-[10000ms]" />
+                <img src={item.url} alt="Gebr. Liechti AG" className="w-full h-full object-cover opacity-85 scale-105 transition-transform duration-[10000ms]" />
               )}
             </div>
           ))}
@@ -174,13 +175,13 @@ export default function Home() {
             </h1>
           </div>
           <div className="absolute bottom-20 left-1/2 -translate-x-1/2 w-full flex flex-col sm:flex-row gap-5 justify-center items-center px-4 z-40 pointer-events-auto">
-              <a href={`/${locale}/kontakt`} className="group relative px-8 py-3.5 bg-[#001133]/80 text-[#d4af37] rounded-full border border-[#d4af37] hover:bg-[#d4af37] hover:text-[#001133] hover:border-[#d4af37] font-bold text-sm tracking-[0.1em] uppercase transition-all duration-500 shadow-[0_0_20px_rgba(0,0,0,0.5)] backdrop-blur-md flex justify-center items-center w-full sm:w-auto">
+              <Link href={`/${locale}/kontakt`} className="group relative px-8 py-3.5 bg-[#001133]/80 text-[#d4af37] rounded-full border border-[#d4af37] hover:bg-[#d4af37] hover:text-[#001133] hover:border-[#d4af37] font-bold text-sm tracking-[0.1em] uppercase transition-all duration-500 shadow-[0_0_20px_rgba(0,0,0,0.5)] backdrop-blur-md flex justify-center items-center w-full sm:w-auto">
                   <span className="relative z-10">{t('btnContact')}</span>
-              </a>
-              <a href={`/${locale}/heizung`} className="group relative px-8 py-3.5 bg-[#001133]/80 overflow-hidden rounded-full border border-[#d4af37] text-[#d4af37] hover:text-[#000a1f] hover:border-white font-bold text-sm tracking-[0.1em] uppercase transition-all duration-500 backdrop-blur-md flex justify-center items-center shadow-[0_0_20px_rgba(0,0,0,0.5)] w-full sm:w-auto">
+              </Link>
+              <Link href={`/${locale}/heizung`} className="group relative px-8 py-3.5 bg-[#001133]/80 overflow-hidden rounded-full border border-[#d4af37] text-[#d4af37] hover:text-[#000a1f] hover:border-white font-bold text-sm tracking-[0.1em] uppercase transition-all duration-500 backdrop-blur-md flex justify-center items-center shadow-[0_0_20px_rgba(0,0,0,0.5)] w-full sm:w-auto">
                   <span className="absolute inset-0 bg-white scale-x-0 origin-left group-hover:scale-x-100 transition-transform duration-500 ease-out z-0"></span>
                   <span className="relative z-10">{t('servicesTitle')}</span>
-              </a>
+              </Link>
           </div>
         </div>
         <button onClick={prevSlide} className="absolute left-4 top-1/2 -translate-y-1/2 z-40 text-white/50 hover:text-[#d4af37] transition-colors p-2 hover:scale-110 bg-black/20 rounded-full backdrop-blur-sm"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-8 h-8"><path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" /></svg></button>
@@ -220,7 +221,7 @@ export default function Home() {
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             
-            <a href={`/${locale}/heizung`} className="group block relative h-[350px] rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-shadow">
+            <Link href={`/${locale}/heizung`} className="group block relative h-[350px] rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-shadow">
               <div className="absolute inset-0 bg-liechti-dark/50 group-hover:bg-liechti-blue/60 transition-colors duration-500 z-10"></div>
               <img src="/services/heizung-service.jpg" alt="Heizung" className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000" />
               <div className="absolute inset-0 z-20 flex flex-col items-center justify-center p-6 text-center border-4 border-transparent group-hover:border-liechti-gold/50 rounded-3xl transition-all">
@@ -229,9 +230,9 @@ export default function Home() {
                   {t('learnMore')} <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
                 </span>
               </div>
-            </a>
+            </Link>
 
-            <a href={`/${locale}/sanitaer`} className="group block relative h-[350px] rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-shadow">
+            <Link href={`/${locale}/sanitaer`} className="group block relative h-[350px] rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-shadow">
               <div className="absolute inset-0 bg-liechti-dark/50 group-hover:bg-liechti-blue/60 transition-colors duration-500 z-10"></div>
               <img src="/services/sanitaer-service.jpg" alt="Sanitär" className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000" />
               <div className="absolute inset-0 z-20 flex flex-col items-center justify-center p-6 text-center border-4 border-transparent group-hover:border-liechti-gold/50 rounded-3xl transition-all">
@@ -240,9 +241,9 @@ export default function Home() {
                   {t('learnMore')} <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
                 </span>
               </div>
-            </a>
+            </Link>
 
-            <a href={`/${locale}/klima`} className="group block relative h-[350px] rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-shadow">
+            <Link href={`/${locale}/klima`} className="group block relative h-[350px] rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-shadow">
               <div className="absolute inset-0 bg-liechti-dark/50 group-hover:bg-liechti-blue/60 transition-colors duration-500 z-10"></div>
               <img src="/services/klima-service.jpg" alt="Klima" className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000" />
               <div className="absolute inset-0 z-20 flex flex-col items-center justify-center p-6 text-center border-4 border-transparent group-hover:border-liechti-gold/50 rounded-3xl transition-all">
@@ -251,7 +252,7 @@ export default function Home() {
                   {t('learnMore')} <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
                 </span>
               </div>
-            </a>
+            </Link>
 
           </div>
         </div>
@@ -373,11 +374,11 @@ export default function Home() {
             </div>
 
             <div className="flex flex-col gap-4">
-              <a href={`/${locale}/kontakt`} className="bg-[#001133] hover:bg-[#d4af37] text-white hover:text-[#001133] w-full py-4 rounded-2xl font-bold text-lg flex items-center justify-center gap-3 transition-colors shadow-lg group border border-transparent hover:border-[#001133]">
+              <Link href={`/${locale}/kontakt`} className="bg-[#001133] hover:bg-[#d4af37] text-white hover:text-[#001133] w-full py-4 rounded-2xl font-bold text-lg flex items-center justify-center gap-3 transition-colors shadow-lg group border border-transparent hover:border-[#001133] relative">
                 <Mail className="w-6 h-6 group-hover:text-[#001133] text-[#d4af37] transition-colors" />
                 {t('btnContact')}
                 <ArrowRight className="w-6 h-6 opacity-0 group-hover:opacity-100 group-hover:translate-x-2 transition-all absolute right-8" />
-              </a>
+              </Link>
 
               <div className="flex items-start gap-3 text-gray-500 text-sm max-w-md bg-gray-50 p-3 rounded-xl border border-gray-200 mt-2">
                 <Truck className="w-5 h-5 shrink-0 text-gray-400 mt-0.5" />
