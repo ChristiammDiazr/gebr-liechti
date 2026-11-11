@@ -3,7 +3,6 @@ import { NextIntlClientProvider } from 'next-intl';
 import { getMessages, getTranslations } from 'next-intl/server';
 import { Inter } from "next/font/google";
 import Link from 'next/link';
-import Script from 'next/script';
 import LanguageSwitcherClient from "@/components/LanguageSwitcherClient";
 import "@/app/globals.css"; 
 
@@ -12,6 +11,10 @@ const inter = Inter({ subsets: ["latin"] });
 export const metadata: Metadata = {
   title: "Gebr. Liechti Heizung Sanitär AG",
   description: "Ihr vertrauenswürdiger Partner seit 1974 in Heizung, Sanitär und Photovoltaik.",
+  other: {
+    // Bloqueamos el traductor automático de Chrome para evitar que ensucie nuestro next-intl
+    google: 'notranslate',
+  },
 };
 
 export default async function RootLayout({
@@ -28,30 +31,8 @@ export default async function RootLayout({
   const tFooter = await getTranslations({ locale, namespace: 'Footer' });
 
   return (
-    <html lang={locale}>
-      <head>
-        {/* Carga del inicializador de Google Translate */}
-        <Script id="google-translate-init" strategy="afterInteractive">
-          {`
-            function googleTranslateElementInit() {
-              new window.google.translate.TranslateElement({
-                pageLanguage: 'de',
-                includedLanguages: 'de,en,fr,it,pt,es,sq,pl',
-                autoDisplay: false
-              }, 'google_translate_element');
-            }
-          `}
-        </Script>
-        <Script
-          id="google-translate-script"
-          src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"
-          strategy="afterInteractive"
-        />
-      </head>
+    <html lang={locale} translate="no">
       <body className={inter.className}>
-        {/* Contenedor oculto exigido por Google Translate */}
-        <div id="google_translate_element" style={{ display: 'none', visibility: 'hidden' }}></div>
-
         <NextIntlClientProvider messages={messages}>
           
           {/* HEADER GLOBAL */}
@@ -60,8 +41,6 @@ export default async function RootLayout({
             {/* LOGOTIPO CON AURA DINÁMICA */}
             <Link href={`/${locale}`} className="group cursor-pointer shrink-0 z-50">
               <div className="relative flex items-center justify-center">
-                
-                {/* 1. EL AURA (Glow Exterior) */}
                 <div 
                   className="absolute -inset-2 blur-xl rounded-full transition-all duration-500 group-hover:blur-2xl group-hover:scale-110"
                   style={{
@@ -70,8 +49,6 @@ export default async function RootLayout({
                     zIndex: 0
                   }}
                 ></div>
-                
-                {/* 2. LA PLACA (Efecto Cristal) */}
                 <div 
                   className="relative flex items-center px-4 py-2 rounded-xl transition-all duration-500 transform group-hover:scale-105 group-hover:-rotate-1 group-hover:-translate-y-1 shadow-[0_8px_20px_rgba(0,0,0,0.3)]"
                   style={{
@@ -88,7 +65,6 @@ export default async function RootLayout({
                     className="h-9 md:h-11 w-auto object-contain transition-transform duration-500 group-hover:rotate-1" 
                   />
                 </div>
-                
               </div>
             </Link>
             
@@ -124,7 +100,7 @@ export default async function RootLayout({
 
           {children}
 
-          {/* FOOTER CORPORATIVO CON ENLACES LEGALES Y SEPARADOR ELEGANTE DE PUNTO MEDIO · */}
+          {/* FOOTER CORPORATIVO CON ENLACES LEGALES Y SEPARADOR DE PUNTO MEDIO */}
           <footer className="bg-liechti-dark text-white pt-16 pb-8 border-t-[6px] border-liechti-gold">
             <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-12 text-center md:text-left">
               <div>
